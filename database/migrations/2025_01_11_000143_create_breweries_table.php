@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('type')->default('unknown');
             $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
+            $table->string('address_3')->nullable();
             $table->string('city')->nullable();
             $table->string('province')->nullable();
             $table->string('country')->nullable();
