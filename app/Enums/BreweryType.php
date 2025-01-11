@@ -4,15 +4,20 @@ namespace App\Enums;
 
 enum BreweryType: string
 {
+    case Bar = 'bar';
+    case Beergarden = 'beergarden';
+    case Brewpub = 'brewpub';
+    case Closed = 'closed';
+    case Contract = 'contract';
+    case Large = 'large';
     case Micro = 'micro';
     case Nano = 'nano';
-    case Regional = 'regional';
-    case Brewpub = 'brewpub';
-    case Large = 'large';
     case Planning = 'planning';
-    case Bar = 'bar';
-    case Contract = 'contract';
     case Proprietor = 'proprietor';
-    case Closed = 'closed';
+    case Regional = 'regional';
+    case Taproom = 'taproom';
     case Unknown = 'unknown';
+
+    // prob should be removed from the dataset...
+    case Location = 'location';
 }
