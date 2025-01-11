@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        AboutCommand::add('Open Brewery DB', [
+            'last_updated' => DB::table('breweries')->max('updated_at'),
+            'records' => DB::table('breweries')->count(),
+        ]);
     }
 }
