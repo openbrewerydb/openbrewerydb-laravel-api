@@ -15,6 +15,8 @@ class Breweries implements ShouldQueue
      */
     public function handle(): void
     {
+        DB::table('breweries')->truncate();
+
         $json = file_get_contents(
             filename: 'https://raw.githubusercontent.com/openbrewerydb/openbrewerydb/refs/heads/master/breweries.json',
         );

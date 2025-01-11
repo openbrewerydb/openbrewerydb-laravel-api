@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Brewery;
 use Illuminate\Console\Command;
 
 class RefreshSearchIndexes extends Command
@@ -25,9 +26,9 @@ class RefreshSearchIndexes extends Command
      */
     public function handle()
     {
-        $this->call('scout:flush', ['model' => 'App\Models\Brewery']);
+        $this->call('scout:flush', ['model' => Brewery::class]);
 
-        $this->call('scout:import', ['model' => 'App\Models\Brewery']);
+        $this->call('scout:import', ['model' => Brewery::class]);
 
         $this->info('Search indexes refreshed successfully.');
     }
