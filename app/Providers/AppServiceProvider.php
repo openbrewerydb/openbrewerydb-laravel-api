@@ -21,9 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        AboutCommand::add('Open Brewery DB', [
-            'last_updated' => DB::table('breweries')->max('updated_at'),
-            'records' => DB::table('breweries')->count(),
-        ]);
+        if (DB::getSchemaBuilder()->hasTable('breweries')) {
+            AboutCommand::add('Open Brewery DB', [
+                'last_updated' => DB::table('breweries')->max('updated_at'),
+                'records' => DB::table('breweries')->count(),
+            ]);
+        }
     }
 }
