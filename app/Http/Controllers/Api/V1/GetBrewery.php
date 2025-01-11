@@ -21,6 +21,6 @@ class GetBrewery extends Controller
 
         return response()->json($brewery)
             ->header('Cache-Control', 'public, max-age=300')
-            ->etag(md5($brewery->updated_at));
+            ->setEtag(md5($brewery->updated_at));
     }
 }
