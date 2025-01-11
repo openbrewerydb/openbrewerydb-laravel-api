@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (DB::getSchemaBuilder()->hasTable('breweries')) {
+        if (file_exists(database_path('database.sqlite')) && DB::getSchemaBuilder()->hasTable('breweries')) {
             AboutCommand::add('Open Brewery DB', [
                 'last_updated' => DB::table('breweries')->max('updated_at'),
                 'records' => DB::table('breweries')->count(),
