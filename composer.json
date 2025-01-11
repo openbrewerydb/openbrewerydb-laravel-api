@@ -16,7 +16,8 @@
         "laravel/scout": "^10.11.9",
         "laravel/tinker": "^2.10",
         "meilisearch/meilisearch-php": "^1.12",
-        "spatie/laravel-query-builder": "^6.3"
+        "spatie/laravel-query-builder": "^6.3",
+        "tightenco/duster": "^3.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",

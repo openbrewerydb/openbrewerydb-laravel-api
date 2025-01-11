@@ -16,7 +16,7 @@ class GetBrewery extends Controller
      */
     public function __invoke(Request $request, string $id): JsonResponse
     {
-        $brewery = FacadesCache::remember('brewery_' . $id, 300, function () use ($id) {
+        $brewery = FacadesCache::remember('brewery_'.$id, 300, function () use ($id) {
             return new BreweryResource(Brewery::findOrFail($id));
         });
 

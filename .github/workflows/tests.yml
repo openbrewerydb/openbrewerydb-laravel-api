@@ -1,0 +1,22 @@
+# .github/workflows/tests.yml
+name: Tests
+
+on:
+  push:
+    branches:
+      - '!main'
+      - '!release-**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: "duster"
+        uses: tighten/duster-action@v3
+        with:
+          args: lint --using=pint -v
