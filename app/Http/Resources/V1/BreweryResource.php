@@ -29,6 +29,8 @@ class BreweryResource extends JsonResource
             'latitude' => $this->latitude,
             'phone' => $this->phone,
             'website_url' => $this->website_url,
+            'state' => $this->province,
+            'street' => $this->address_1,
         ];
     }
 }
