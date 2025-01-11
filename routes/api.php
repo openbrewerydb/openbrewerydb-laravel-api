@@ -14,4 +14,4 @@ Route::get('/about', function () {
     ]);
 });
 
-require __DIR__ . '/api/v1/routes.php';
+require __DIR__.'/api/v1/routes.php';
