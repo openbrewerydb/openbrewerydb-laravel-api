@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\BreweryCollection;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -35,6 +36,6 @@ class ListBreweries extends Controller
                 $request->input('per_page', 50)
             );
 
-        return response()->json($breweries);
+        return response()->json(new BreweryCollection($breweries));
     }
 }
