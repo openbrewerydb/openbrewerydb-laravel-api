@@ -18,6 +18,7 @@ class ListBreweries extends Controller
     {
         $validator = Validator::make($request->all(), [
             'per_page' => 'integer|min:1|max:500',
+            'sort' => 'string',
 
             // filters
             'by_city' => 'string|max:255',
@@ -76,6 +77,19 @@ class ListBreweries extends Controller
                     ->toArray();
 
                 $query->whereNotIn('type', $values);
+            })
+            ->when($request->has('sort'), function ($query) use ($request) {
+                $values = explode(',', $request->input('sort'));
+
+                $values = collect($values)
+                    ->map(function ($value) {
+                        return explode(':', $value);
+                    })
+                    ->toArray();
+
+                foreach ($values as $value) {
+                    $query->orderBy($value[0], $value[1] ?? 'asc');
+                }
             })
             ->simplePaginate(
                 perPage: $request->input('per_page', 50)
