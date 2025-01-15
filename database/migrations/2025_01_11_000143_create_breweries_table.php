@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('breweries', function (Blueprint $table) {
+        Schema::connection('api')->dropIfExists('breweries');
+
+        Schema::connection('api')->create('breweries', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
             $table->string('name');
@@ -39,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('breweries');
+        Schema::connection('api')->dropIfExists('breweries');
     }
 };

@@ -16,6 +16,13 @@ class Brewery extends Model
     use HasFactory, HasUuids, Searchable, SoftDeletes, v1BreweryFilters;
 
     /**
+     * The database connection that should be used by the model.
+     *
+     * @var string
+     */
+    protected $connection = 'api';
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
