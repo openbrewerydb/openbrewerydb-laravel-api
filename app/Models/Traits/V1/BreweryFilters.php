@@ -2,16 +2,14 @@
 
 namespace App\Models\Traits\V1;
 
-use Illuminate\Support\Facades\DB;
-
 trait BreweryFilters
 {
     /**
      * Order results by distance from given coordinates. Use "6371" for kilometers or "3959" for miles.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param float $latitude
-     * @param float $longitude
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  float  $latitude
+     * @param  float  $longitude
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrderByDistance($query, $latitude, $longitude)
