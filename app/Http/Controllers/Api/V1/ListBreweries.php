@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\BreweryCollection;
+use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -37,6 +38,7 @@ class ListBreweries extends Controller
         }
 
         $breweries = Brewery::query()
+            ->select('*')
             ->when($request->has('by_city'), function ($query) use ($request) {
                 $query->where('city', 'like', '%'.Str::trim($request->input('by_city')).'%');
             })
@@ -67,6 +69,17 @@ class ListBreweries extends Controller
 
                 $query->whereIn('id', $values);
             })
+            ->when($request->has('by_dist'), function ($query) use ($request) {
+                $values = explode(',', $request->input('by_dist'));
+
+                $values = collect($values)
+                    ->map(function ($value) {
+                        return Str::trim($value);
+                    })
+                    ->toArray();
+
+                $query->orderByDistance($values[0], $values[1]);
+            })
             ->when($request->has('exclude_types'), function ($query) use ($request) {
                 $values = explode(',', $request->input('exclude_types'));
 
@@ -95,6 +108,9 @@ class ListBreweries extends Controller
                 perPage: $request->input('per_page', 50)
             );
 
-        return response()->json(new BreweryCollection($breweries));
+        return response()->json(
+            data: BreweryResource::collection($breweries),
+            status: Response::HTTP_OK,
+        );
     }
 }

@@ -31,6 +31,7 @@ class BreweryResource extends JsonResource
             'website_url' => $this->website_url,
             'state' => $this->province,
             'street' => $this->address_1,
+            'distance' => $this->distance,
         ];
     }
 }
