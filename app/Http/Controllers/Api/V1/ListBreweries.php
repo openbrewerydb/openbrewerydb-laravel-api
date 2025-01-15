@@ -104,15 +104,9 @@ class ListBreweries extends Controller
                     $query->orderBy($value[0], $value[1] ?? 'asc');
                 }
             })
-            // ->toSql();
             ->simplePaginate(
                 perPage: $request->input('per_page', 50)
             );
-
-        // return response()->json(
-        //     data: $breweries,
-        //     status: Response::HTTP_OK,
-        // );
 
         return response()->json(
             data: BreweryResource::collection($breweries),
