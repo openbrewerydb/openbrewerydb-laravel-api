@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\BreweryCollection;
+use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,9 +23,11 @@ class SearchBreweries extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $breweries = Brewery::search(query: urldecode($request->input('query')))
+        $query = urldecode(string: $request->string('query')->trim());
+
+        $breweries = Brewery::search(query: $query)
             ->simplePaginate($request->input('per_page', 50));
 
-        return response()->json(new BreweryCollection($breweries));
+        return response()->json(data: BreweryResource::collection($breweries));
     }
 }
