@@ -22,7 +22,9 @@ class Autocomplete extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $breweries = Brewery::search(query: urldecode($request->input('query')))
+        $query = urldecode(string: $request->string('query')->trim());
+
+        $breweries = Brewery::search(query: $query)
             ->query(function ($query) {
                 $query->select(['id', 'name']);
             })
