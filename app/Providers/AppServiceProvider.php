@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,11 +23,38 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (file_exists(database_path('database.sqlite')) && DB::getSchemaBuilder()->hasTable('breweries')) {
-            AboutCommand::add('Open Brewery DB', [
-                'last_updated' => DB::table('breweries')->max('updated_at'),
-                'records' => DB::table('breweries')->count(),
-            ]);
+        $this->appendAboutCommand();
+        $this->configureModels();
+        $this->forceHttps();
+    }
+
+    protected function appendAboutCommand(): void
+    {
+        AboutCommand::add('Open Brewery DB', [
+            'records' => DB::connection('api')->table('breweries')->count(),
+            'last_updated' => DB::connection('api')->table('breweries')->max('updated_at'),
+        ]);
+    }
+
+    /**
+     * Configure the application's models.
+     */
+    protected function configureModels(): void
+    {
+        Model::unguard();
+
+        $this->app->isProduction() || Model::shouldBeStrict();
+    }
+
+    /**
+     * Force https scheme in non-local environments.
+     */
+    protected function forceHttps(): void
+    {
+        if (app()->environment('local')) {
+            return;
         }
+
+        URL::forceScheme('https');
     }
 }
