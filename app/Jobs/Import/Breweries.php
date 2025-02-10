@@ -15,7 +15,7 @@ class Breweries implements ShouldQueue
      */
     public function handle(): void
     {
-        DB::connection('api')->raw('TRUNCATE TABLE breweries');
+        DB::raw('TRUNCATE TABLE breweries');
 
         $json = file_get_contents(
             filename: 'https://raw.githubusercontent.com/openbrewerydb/openbrewerydb/refs/heads/master/breweries.json',
@@ -26,7 +26,7 @@ class Breweries implements ShouldQueue
         $data
             ->chunk(100)
             ->each(function ($chunk) {
-                DB::connection('api')->table('breweries')->insertOrIgnore(
+                DB::table('breweries')->insertOrIgnore(
                     $chunk->map(function ($brewery) {
                         return [
                             'id' => $brewery['id'],
