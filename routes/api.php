@@ -8,8 +8,8 @@ Route::get('/about', function () {
         'name' => 'Open Brewery DB API',
         'version' => '1.0.0',
         'data' => [
-            'records' => DB::connection('api')->table('breweries')->count(),
-            'last_updated' => DB::connection('api')->table('breweries')->max('updated_at'),
+            'records' => DB::table('breweries')->count(),
+            'last_updated' => DB::table('breweries')->max('updated_at'),
         ],
     ]);
 });
