@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\BreweryCollection;
+use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -27,6 +27,6 @@ class RandomBrewery extends Controller
             ->limit($request->input('size', 1))
             ->get();
 
-        return response()->json(new BreweryCollection($breweries));
+        return response()->json(BreweryResource::collection($breweries));
     }
 }
