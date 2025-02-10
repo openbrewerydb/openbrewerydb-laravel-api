@@ -24,13 +24,10 @@ return new class extends Migration
             $table->string('country');
             $table->string('postal_code')->nullable();
             $table->string('website_url')->nullable();
-            $table->string('phone_number')->nullable();
+            $table->string('phone')->nullable();
 
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
-
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 

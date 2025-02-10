@@ -7,13 +7,19 @@ use App\Models\Traits\V1\BreweryFilters as v1BreweryFilters;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
 class Brewery extends Model
 {
     /** @use HasFactory<\Database\Factories\BreweryFactory> */
-    use HasFactory, HasUuids, Searchable, SoftDeletes, v1BreweryFilters;
+    use HasFactory, HasUuids, Searchable, v1BreweryFilters;
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * Get the attributes that should be cast.
