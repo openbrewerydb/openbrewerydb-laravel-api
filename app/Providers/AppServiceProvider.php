@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Console\AboutCommand;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,17 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->appendAboutCommand();
         $this->configureModels();
         $this->forceHttps();
-    }
-
-    protected function appendAboutCommand(): void
-    {
-        AboutCommand::add('Open Brewery DB', [
-            'records' => DB::connection('api')->table('breweries')->count(),
-            'last_updated' => DB::connection('api')->table('breweries')->max('updated_at'),
-        ]);
     }
 
     /**
