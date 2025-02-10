@@ -11,23 +11,20 @@
     "require": {
         "php": "^8.2",
         "http-interop/http-factory-guzzle": "^1.2",
-        "laravel/framework": "^11.37",
-        "laravel/sanctum": "^4.0.7",
-        "laravel/scout": "^10.11.9",
-        "laravel/tinker": "^2.10",
-        "meilisearch/meilisearch-php": "^1.12",
-        "spatie/laravel-query-builder": "^6.3",
-        "tightenco/duster": "^3.1"
+        "laravel/framework": "^11.41.3",
+        "laravel/tinker": "^2.10.1",
+        "meilisearch/meilisearch-php": "^1.12"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",
-        "laravel/pail": "^1.2.1",
-        "laravel/pint": "^1.19",
-        "laravel/sail": "^1.39.1",
+        "laravel/pail": "^1.2.2",
+        "laravel/pint": "^1.20",
+        "laravel/sail": "^1.41.0",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/collision": "^8.5",
-        "pestphp/pest": "^3.7.1",
-        "pestphp/pest-plugin-laravel": "^3.0"
+        "nunomaduro/collision": "^8.6.1",
+        "pestphp/pest": "^3.7.4",
+        "pestphp/pest-plugin-laravel": "^3.1",
+        "tightenco/duster": "^3.1"
     },
     "autoload": {
         "psr-4": {
