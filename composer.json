@@ -12,6 +12,7 @@
         "php": "^8.2",
         "http-interop/http-factory-guzzle": "^1.2",
         "laravel/framework": "^11.41.3",
+        "laravel/scout": "^10.12",
         "laravel/tinker": "^2.10.1",
         "meilisearch/meilisearch-php": "^1.12"
     },
