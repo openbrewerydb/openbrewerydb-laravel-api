@@ -55,7 +55,7 @@ class ListBreweries extends Controller
                 $query->where('province', 'like', '%'.Str::trim($request->input('by_state')).'%');
             })
             ->when($request->has('by_type'), function ($query) use ($request) {
-                $query->where('type', '=', $request->input('by_type'));
+                $query->where('brewery_type', '=', $request->input('by_type'));
             })
             ->when($request->has('by_ids'), function ($query) use ($request) {
                 $values = explode(',', $request->input('by_ids'));
@@ -89,7 +89,7 @@ class ListBreweries extends Controller
                     })
                     ->toArray();
 
-                $query->whereNotIn('type', $values);
+                $query->whereNotIn('brewery_type', $values);
             })
             ->when($request->has('sort'), function ($query) use ($request) {
                 $values = explode(',', $request->input('sort'));
