@@ -23,7 +23,7 @@ class Brewery extends Model
     protected function casts(): array
     {
         return [
-            'type' => BreweryType::class,
+            'brewery_type' => BreweryType::class,
         ];
     }
 }
