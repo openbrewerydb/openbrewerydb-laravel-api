@@ -27,7 +27,7 @@ class BreweryResource extends JsonResource
             'country' => $this->country,
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
-            'phone' => $this->phone_number,
+            'phone' => $this->phone,
             'website_url' => $this->website_url,
             'state' => $this->province,
             'street' => $this->address_1,
