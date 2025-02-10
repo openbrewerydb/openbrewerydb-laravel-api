@@ -20,8 +20,6 @@ class GetBrewery extends Controller
             return new BreweryResource(Brewery::findOrFail($id));
         });
 
-        return response()->json($brewery)
-            ->header('Cache-Control', 'public, max-age=300')
-            ->setEtag(md5($brewery->updated_at));
+        return response()->json($brewery);
     }
 }
