@@ -40,11 +40,9 @@ class Breweries implements ShouldQueue
                             'country' => $brewery['country'],
                             'postal_code' => $brewery['postal_code'],
                             'website_url' => $brewery['website_url'],
-                            'phone_number' => $brewery['phone'],
+                            'phone' => $brewery['phone'],
                             'latitude' => $brewery['latitude'],
                             'longitude' => $brewery['longitude'],
-                            'created_at' => now(),
-                            'updated_at' => now(),
                         ];
                     })->toArray(),
                 );
