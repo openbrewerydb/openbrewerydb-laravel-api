@@ -27,6 +27,7 @@ RUN install-php-extensions sqlite3 \
 WORKDIR /var/www/html
 
 # Copy the application files
+COPY --chmod=755 ./docker/build/etc/entrypoint.d /etc/entrypoint.d
 COPY --chown=www-data:www-data . /var/www/html
 
 # Install the composer dependencies
