@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
+  lint-app:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -21,8 +21,8 @@ jobs:
         with:
           args: lint --using=pint -v
 
-  docker-build:
-    needs: lint
+  build-image:
+    needs: lint-app
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
