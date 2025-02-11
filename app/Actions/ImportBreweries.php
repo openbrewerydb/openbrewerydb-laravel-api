@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Jobs\Import;
+namespace App\Actions;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
 
-class Breweries implements ShouldQueue
+class ImportBreweries
 {
-    use Queueable;
+    use AsAction;
 
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
+    public function handle()
     {
         DB::raw('TRUNCATE TABLE breweries');
 
