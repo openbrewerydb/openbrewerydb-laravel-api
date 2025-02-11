@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.title="Open Brewery DB API" \
 ARG WWWGROUP
 
 ENV PHP_MAX_EXECUTION_TIME="60" \
-    PHP_OPACHE_ENABLE="1" \
+    PHP_OPCACHE_ENABLE="1" \
     PHP_POST_MAX_SIZE="8M" \
     PHP_UPLOAD_MAX_FILESIZE="8M" \
     SHOW_WELCOME_MESSAGE="false"
