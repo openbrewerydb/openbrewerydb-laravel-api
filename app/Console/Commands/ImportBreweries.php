@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\Import\Breweries;
+use App\Actions\ImportBreweries as ImportBreweriesAction;
 use Illuminate\Console\Command;
 
 class ImportBreweries extends Command
@@ -12,7 +12,8 @@ class ImportBreweries extends Command
      *
      * @var string
      */
-    protected $signature = 'app:import-breweries';
+    protected $signature = 'app:import-breweries
+                            {--async : Import breweries by throwing a job on the queue}';
 
     /**
      * The console command description.
@@ -24,10 +25,18 @@ class ImportBreweries extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        Breweries::dispatch();
+        if ($this->option('async')) {
+            ImportBreweriesAction::dispatch();
 
-        $this->info('Dispatched import breweries job!');
+            $this->info('Dispatched import breweries job!');
+
+            return;
+        }
+
+        ImportBreweriesAction::run();
+
+        $this->info('Breweries imported!');
     }
 }
