@@ -48,14 +48,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           target: production
-  deploy-app:
-    needs: build-app
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy the app
-        uses: digitalocean/app_action/deploy@v2
-        with:
-          token: ${{ secrets.DO_ACCESS_TOKEN }}
