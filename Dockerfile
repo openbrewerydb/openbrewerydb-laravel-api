@@ -27,7 +27,6 @@ RUN install-php-extensions sqlite3 \
 WORKDIR /var/www/html
 
 # Copy the application files
-COPY --chmod=755 ./docker/build/etc/entrypoint.d /etc/entrypoint.d
 COPY --chown=www-data:www-data . /var/www/html
 
 # Install the composer dependencies
@@ -41,4 +40,9 @@ FROM base AS production
 # Drop back to the www-data user
 USER www-data
 
+# Create the SQLite database
 RUN php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
+
+# Build the dataset
+RUN php artisan migrate --force \
+    && php artisan app:import-breweries

@@ -1,0 +1,9 @@
+/.github
+/docker
+/node_modules
+/vendor
+.editorconfig
+.env
+docker-compose.yml
+install.sh
+README.md
