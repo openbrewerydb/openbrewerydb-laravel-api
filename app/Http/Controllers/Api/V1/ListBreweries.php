@@ -52,7 +52,7 @@ class ListBreweries extends Controller
                 $query->where('postal_code', 'like', '%'.Str::trim($request->input('by_postal')).'%');
             })
             ->when($request->has('by_state'), function ($query) use ($request) {
-                $query->where('province', 'like', '%'.Str::trim($request->input('by_state')).'%');
+                $query->where('state_province', 'like', '%'.Str::trim($request->input('by_state')).'%');
             })
             ->when($request->has('by_type'), function ($query) use ($request) {
                 $query->where('brewery_type', '=', $request->input('by_type'));
