@@ -1,4 +1,5 @@
 /.github
+/database/*.sqlite
 /docker
 /node_modules
 /vendor
