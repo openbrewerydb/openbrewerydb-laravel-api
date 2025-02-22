@@ -5,7 +5,7 @@ FROM serversideup/php:8.4-fpm-nginx-alpine-v3.5.2 AS base
 
 LABEL org.opencontainers.image.title="Open Brewery DB API" \
       org.opencontainers.image.description="Laravel implementation of the Open Brewery DB API" \
-      org.opencontainers.image.authors="Alex Justesen (@alexjustesen)" \
+      org.opencontainers.image.authors="Chris Mears (@chrisjm), Alex Justesen (@alexjustesen)" \
       org.opencontainers.image.source="https://github.com/alexjustesen/obdb-api"
 
 ARG WWWGROUP
