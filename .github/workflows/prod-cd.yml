@@ -3,6 +3,8 @@ name: Build Production Docker Image
 on:
   push:
     tags: ['v*.*.*']
+  repository_dispatch:
+    types: [build_prod]
 
 env:
   REGISTRY: ghcr.io

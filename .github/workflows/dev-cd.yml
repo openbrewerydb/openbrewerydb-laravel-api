@@ -3,6 +3,8 @@ name: Build Development Docker Image
 on:
   push:
     branches: ['main']
+  repository_dispatch:
+    types: [build_dev]
 
 env:
   REGISTRY: ghcr.io
