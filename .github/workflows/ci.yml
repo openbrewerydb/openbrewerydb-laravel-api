@@ -45,7 +45,7 @@ jobs:
 
       - name: Create Database Directory
         run: |
-          touch database/database.sqlite
+          touch database/testing.sqlite
 
       - name: Run Tests
         run: php artisan test --parallel
