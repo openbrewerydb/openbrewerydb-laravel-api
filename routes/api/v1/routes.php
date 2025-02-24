@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\V1\Autocomplete;
 use App\Http\Controllers\Api\V1\GetBrewery;
 use App\Http\Controllers\Api\V1\ListBreweries;
 use App\Http\Controllers\Api\V1\RandomBrewery;
@@ -9,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::get('/breweries', ListBreweries::class);
-    Route::get('/breweries/autocomplete', Autocomplete::class);
     Route::get('/breweries/random', RandomBrewery::class);
     Route::get('/breweries/search', SearchBreweries::class);
 
