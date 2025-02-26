@@ -13,7 +13,6 @@
         "http-interop/http-factory-guzzle": "^1.2",
         "laravel/framework": "^11.43.2",
         "laravel/scout": "^10.13.1",
-        "lorisleiva/laravel-actions": "^2.8.6",
         "meilisearch/meilisearch-php": "^1.13"
     },
     "require-dev": {
