@@ -40,9 +40,7 @@ FROM base AS production
 # Drop back to the www-data user
 USER www-data
 
-# Create the SQLite database
-RUN php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
-
-# Build the dataset
-RUN php artisan migrate --force \
+# Create the SQLite database, migrate the tables, and seed the data
+RUN php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');" \
+    && php artisan migrate:fresh --force \
     && php artisan app:import-breweries
