@@ -30,6 +30,8 @@ class RefreshSearchIndexes extends Command
 
         $this->call('scout:import', ['model' => Brewery::class]);
 
+        $this->newLine();
+
         $this->info('Search indexes refreshed successfully.');
     }
 }
