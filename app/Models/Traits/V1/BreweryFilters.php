@@ -26,4 +26,23 @@ trait BreweryFilters
             ->whereNotNull('longitude')
             ->orderBy('distance');
     }
+
+    /**
+     * Search across multiple fields.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $search
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query->where(function ($query) use ($search) {
+            $query->where('id', 'LIKE', "%{$search}%")
+                ->orWhere('name', 'LIKE', "%{$search}%")
+                ->orWhere('city', 'LIKE', "%{$search}%")
+                ->orWhere('state_province', 'LIKE', "%{$search}%")
+                ->orWhere('postal_code', 'LIKE', "%{$search}%")
+                ->orWhere('country', 'LIKE', "%{$search}%");
+        });
+    }
 }

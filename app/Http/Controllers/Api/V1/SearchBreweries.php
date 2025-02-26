@@ -25,7 +25,7 @@ class SearchBreweries extends Controller
 
         $query = urldecode(string: $request->string('query')->trim());
 
-        $breweries = Brewery::search(query: $query)
+        $breweries = Brewery::search(search: $query)
             ->simplePaginate($request->input('per_page', 50));
 
         return response()->json(data: BreweryResource::collection($breweries));

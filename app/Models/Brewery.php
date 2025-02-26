@@ -7,12 +7,11 @@ use App\Models\Traits\V1\BreweryFilters as v1BreweryFilters;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Brewery extends Model
 {
     /** @use HasFactory<\Database\Factories\BreweryFactory> */
-    use HasFactory, HasUuids, Searchable, v1BreweryFilters;
+    use HasFactory, HasUuids, v1BreweryFilters;
 
     /**
      * Indicates if the model should be timestamped.
