@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('address_2')->nullable();
             $table->string('address_3')->nullable();
             $table->string('city');
-            $table->string('state_province');
-            $table->string('country');
+            $table->string('state_province')->index();
+            $table->string('country')->index();
             $table->string('postal_code')->nullable();
             $table->string('website_url')->nullable();
             $table->string('phone')->nullable();
