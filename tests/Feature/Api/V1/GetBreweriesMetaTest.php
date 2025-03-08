@@ -9,7 +9,7 @@ beforeEach(function () {
 });
 
 test('returns total breweries', function () {
-    $breweries = Brewery::factory()->count(5)->create();
+    createBreweries(5);
 
     $response = $this->getJson('/v1/breweries/meta');
 
@@ -19,8 +19,8 @@ test('returns total breweries', function () {
 });
 
 test('returns total breweries by state', function () {
-    Brewery::factory()->count(3)->state(['state_province' => 'California'])->create();
-    Brewery::factory()->count(2)->state(['state_province' => 'Oregon'])->create();
+    createBreweries(3, ['state_province' => 'California']);
+    createBreweries(2, ['state_province' => 'Oregon']);
 
     $response = $this->getJson('/v1/breweries/meta');
 
@@ -31,8 +31,8 @@ test('returns total breweries by state', function () {
 });
 
 test('returns total breweries by type', function () {
-    Brewery::factory()->count(2)->state(['brewery_type' => BreweryType::Micro])->create();
-    Brewery::factory()->count(1)->state(['brewery_type' => BreweryType::Regional])->create();
+    createBreweries(2, ['brewery_type' => BreweryType::Micro]);
+    createBreweries(1, ['brewery_type' => BreweryType::Regional]);
 
     $response = $this->getJson('/v1/breweries/meta');
 
@@ -43,7 +43,7 @@ test('returns total breweries by type', function () {
 });
 
 test('handles utf8 characters in meta data', function () {
-    Brewery::factory()->count(2)->state(['state_province' => 'São Paulo'])->create();
+    createBreweries(2, ['state_province' => 'São Paulo']);
 
     $response = $this->getJson('/v1/breweries/meta');
 

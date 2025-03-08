@@ -44,18 +44,12 @@ test('returns limited number of breweries', function () {
     // Request per_page=20
     $response = $this->getJson('/v1/breweries?per_page=20');
 
-    // Assert exactly 20 breweries
     $response->assertOk()
         ->assertJsonCount(20);
 });
 
-test('does not exceed maximum breweries per page', function () {
-    // Create 300 breweries
+test('returns 400 if breweries exceed maximum per page', function () {
     Brewery::factory()->count(201)->create();
-
-    // Request per_page=300
     $response = $this->getJson('/v1/breweries?per_page=501');
-
-    // Assert invalid request
     $response->assertStatus(400);
 });

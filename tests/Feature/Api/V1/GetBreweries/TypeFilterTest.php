@@ -3,7 +3,6 @@
 namespace Tests\Feature\Api\V1\GetBreweries;
 
 use App\Enums\BreweryType;
-use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
@@ -12,10 +11,10 @@ beforeEach(function () {
 
 test('returns breweries filtered by type', function () {
     // Create breweries of different types
-    $breweries = Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'brewery_type' => BreweryType::Micro,
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'brewery_type' => BreweryType::Brewpub,
     ]);
 
@@ -32,10 +31,10 @@ test('returns breweries filtered by type', function () {
 
 test('returns empty list for invalid brewery type', function () {
     // Create breweries of different types
-    $breweries = Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'brewery_type' => BreweryType::Micro,
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'brewery_type' => BreweryType::Brewpub,
     ]);
 
@@ -49,13 +48,13 @@ test('returns empty list for invalid brewery type', function () {
 
 test('returns breweries filtered by multiple types', function () {
     // Create breweries of different types
-    $breweries = Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'brewery_type' => BreweryType::Micro,
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'brewery_type' => BreweryType::Large,
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'brewery_type' => BreweryType::Brewpub,
     ]);
 

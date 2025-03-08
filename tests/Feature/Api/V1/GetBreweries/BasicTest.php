@@ -10,10 +10,16 @@ beforeEach(function () {
 });
 
 test('returns default number of breweries (50)', function () {
-    Brewery::factory()->count(60)->create();
+    createBreweries(60);
     $response = $this->getJson('/v1/breweries');
     $response->assertOk()
-        ->assertJsonCount(50)
+        ->assertJsonCount(50);
+});
+
+test('returns proper brewery JSON structure', function () {
+    createBreweries(1);
+    $response = $this->getJson('/v1/breweries');
+    $response->assertOk()
         ->assertJsonStructure([
             '*' => [
                 'id',
@@ -37,14 +43,14 @@ test('returns default number of breweries (50)', function () {
 });
 
 test('returns cache control headers', function () {
-    Brewery::factory()->create();
+    createBreweries(1);
     $response = $this->getJson('/v1/breweries');
     $response->assertOk()->assertHeader('Cache-Control', 'max-age=300, public');
 });
 
 test('returns HTTP error 400 with invalid params', function () {
     // Create breweries to test with
-    Brewery::factory()->count(60)->create();
+    createBreweries(60);
 
     // Test with various invalid parameters
     $response = $this->getJson('/v1/breweries?'.http_build_query([

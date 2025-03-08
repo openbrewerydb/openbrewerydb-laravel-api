@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Brewery;
-
 test('breweries can be filtered by distance', function () {
     // Portland brewery
     createBrewery([

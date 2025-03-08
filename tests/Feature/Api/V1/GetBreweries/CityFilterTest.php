@@ -11,10 +11,10 @@ beforeEach(function () {
 
 test('returns breweries filtered by city', function () {
     // Create breweries with different cities
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'city' => 'San Diego',
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'city' => 'San Antonio',
     ]);
 
@@ -31,13 +31,13 @@ test('returns breweries filtered by city', function () {
 
 test('returns breweries filtered by multiple cities', function () {
     // Create breweries in different cities
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'city' => 'San Diego',
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'city' => 'San Antonio',
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'city' => 'New York',
     ]);
 
@@ -55,7 +55,7 @@ test('returns breweries filtered by multiple cities', function () {
 
 test('handles %20 as space in city filter', function () {
     // Create brewery in "San Diego"
-    Brewery::factory()->create(['city' => 'San Diego']);
+    createBrewery(['city' => 'San Diego']);
 
     // Test with %20
     $response = $this->getJson('/v1/breweries?by_city=San%20Diego');

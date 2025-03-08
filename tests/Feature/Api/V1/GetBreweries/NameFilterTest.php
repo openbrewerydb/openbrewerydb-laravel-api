@@ -1,8 +1,6 @@
 <?php
 
 namespace Tests\Feature\Api\V1\GetBreweries;
-
-use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
@@ -11,10 +9,10 @@ beforeEach(function () {
 
 test('returns breweries filtered by name', function () {
     // Create breweries with different names
-    $breweries = Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'name' => 'test brewery',
     ]);
-    Brewery::factory()->count(5)->create([
+    createBreweries(5, [
         'name' => 'another brewery',
     ]);
 
@@ -29,9 +27,9 @@ test('returns breweries filtered by name', function () {
     expect($names->contains('test brewery'))->toBeTrue();
 });
 
-test('handles different space formats in name filter', function () {
+test('handles plus (+) as space in name filter', function () {
     // Create brewery with spaces in name
-    Brewery::factory()->create(['name' => 'test brewery']);
+    createBrewery(['name' => 'test brewery']);
 
     // Test with +, %20, and actual space
     $response = $this->getJson('/v1/breweries?by_name=test+brewery');
