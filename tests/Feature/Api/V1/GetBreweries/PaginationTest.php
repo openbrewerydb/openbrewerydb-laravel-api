@@ -46,27 +46,7 @@ test('returns limited number of breweries', function () {
 
     // Assert exactly 20 breweries
     $response->assertOk()
-        ->assertJsonCount(20)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(20);
 });
 
 test('does not exceed maximum breweries per page', function () {

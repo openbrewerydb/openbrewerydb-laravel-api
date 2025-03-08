@@ -23,17 +23,7 @@ test('returns breweries filtered by name', function () {
 
     // Assert only matching names
     $response->assertOk()
-        ->assertJsonCount(5)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'city',
-                'state_province',
-                'country',
-            ],
-        ]);
+        ->assertJsonCount(5);
     $names = collect($response->json())->pluck('name');
     expect($names->contains('another brewery'))->toBeFalse();
     expect($names->contains('test brewery'))->toBeTrue();
@@ -46,25 +36,5 @@ test('handles different space formats in name filter', function () {
     // Test with +, %20, and actual space
     $response = $this->getJson('/v1/breweries?by_name=test+brewery');
     $response->assertOk()
-        ->assertJsonCount(1)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(1);
 });

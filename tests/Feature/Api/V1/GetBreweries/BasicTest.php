@@ -42,7 +42,7 @@ test('returns cache control headers', function () {
     $response->assertOk()->assertHeader('Cache-Control', 'max-age=300, public');
 });
 
-test('returns default results with invalid params', function () {
+test('returns HTTP error 400 with invalid params', function () {
     // Create breweries to test with
     Brewery::factory()->count(60)->create();
 

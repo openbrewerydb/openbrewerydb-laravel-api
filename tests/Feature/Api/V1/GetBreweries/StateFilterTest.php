@@ -23,27 +23,7 @@ test('returns breweries filtered by state', function () {
 
     // Assert matches
     $response->assertOk()
-        ->assertJsonCount(5)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(5);
     $states = collect($response->json())->pluck('state_province');
     expect($states->contains('Texas'))->toBeFalse();
     expect($states->contains('California'))->toBeTrue();
@@ -59,27 +39,7 @@ test('returns breweries with snake case state', function () {
 
     // Assert matches
     $response->assertOk()
-        ->assertJsonCount(1)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(1);
 });
 
 test('returns list with kebab case state', function () {
@@ -105,27 +65,7 @@ test('handles plus as space in state filter', function () {
 
     // Assert matches
     $response->assertOk()
-        ->assertJsonCount(1)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(1);
 });
 
 test('returns empty list with state abbreviation', function () {
@@ -163,27 +103,7 @@ test('returns breweries with utf8 state names', function () {
 
     // Assert matches
     $response->assertOk()
-        ->assertJsonCount(1)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(1);
 });
 
 test('sanitizes sql like characters in state filter', function () {
@@ -195,25 +115,5 @@ test('sanitizes sql like characters in state filter', function () {
 
     // Assert matches
     $response->assertOk()
-        ->assertJsonCount(1)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(1);
 });

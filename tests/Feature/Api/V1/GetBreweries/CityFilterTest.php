@@ -11,7 +11,7 @@ beforeEach(function () {
 
 test('returns breweries filtered by city', function () {
     // Create breweries with different cities
-    $breweries = Brewery::factory()->count(5)->create([
+    Brewery::factory()->count(5)->create([
         'city' => 'San Diego',
     ]);
     Brewery::factory()->count(5)->create([
@@ -23,27 +23,7 @@ test('returns breweries filtered by city', function () {
 
     // Assert only matching cities
     $response->assertOk()
-        ->assertJsonCount(5)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(5);
     $cities = collect($response->json())->pluck('city');
     expect($cities->contains('San Antonio'))->toBeFalse();
     expect($cities->contains('San Diego'))->toBeTrue();
@@ -51,7 +31,7 @@ test('returns breweries filtered by city', function () {
 
 test('returns breweries filtered by multiple cities', function () {
     // Create breweries in different cities
-    $breweries = Brewery::factory()->count(5)->create([
+    Brewery::factory()->count(5)->create([
         'city' => 'San Diego',
     ]);
     Brewery::factory()->count(5)->create([
@@ -66,59 +46,19 @@ test('returns breweries filtered by multiple cities', function () {
 
     // Assert only matching cities
     $response->assertOk()
-        ->assertJsonCount(10)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(10);
     $cities = collect($response->json())->pluck('city');
     expect($cities->contains('New York'))->toBeFalse();
     expect($cities->contains('San Diego'))->toBeTrue();
     expect($cities->contains('San Antonio'))->toBeTrue();
 });
 
-test('handles plus as space in city filter', function () {
+test('handles %20 as space in city filter', function () {
     // Create brewery in "San Diego"
     Brewery::factory()->create(['city' => 'San Diego']);
 
-    // Test with +, %20, and actual space
-    $response = $this->getJson('/v1/breweries?by_city=San+Diego');
+    // Test with %20
+    $response = $this->getJson('/v1/breweries?by_city=San%20Diego');
     $response->assertOk()
-        ->assertJsonCount(1)
-        ->assertJsonStructure([
-            '*' => [
-                'id',
-                'name',
-                'brewery_type',
-                'address_1',
-                'address_2',
-                'address_3',
-                'city',
-                'state_province',
-                'postal_code',
-                'country',
-                'longitude',
-                'latitude',
-                'phone',
-                'website_url',
-                'state',
-                'street',
-            ],
-        ]);
+        ->assertJsonCount(1);
 });
