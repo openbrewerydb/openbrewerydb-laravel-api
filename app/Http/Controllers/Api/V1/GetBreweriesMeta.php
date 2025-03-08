@@ -26,7 +26,6 @@ class GetBreweriesMeta extends Controller
                 ->groupBy('state_province')
                 ->pluck('count', 'state_province')
                 ->toArray();
-
             $byType = Brewery::query()
                 ->select('brewery_type', DB::raw('count(*) as count'))
                 ->whereNotNull('brewery_type')
