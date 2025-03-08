@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class RandomBrewery extends Controller
@@ -27,6 +28,9 @@ class RandomBrewery extends Controller
             ->limit($request->input('size', 1))
             ->get();
 
-        return response()->json(BreweryResource::collection($breweries));
+        return response()->json(
+            data: BreweryResource::collection($breweries),
+            status: Response::HTTP_OK,
+        );
     }
 }

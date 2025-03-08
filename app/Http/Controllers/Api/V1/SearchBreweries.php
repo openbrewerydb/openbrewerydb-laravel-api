@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class SearchBreweries extends Controller
@@ -28,6 +29,9 @@ class SearchBreweries extends Controller
         $breweries = Brewery::search(query: $query)
             ->simplePaginate($request->input('per_page', 50));
 
-        return response()->json(data: BreweryResource::collection($breweries));
+        return response()->json(
+            data: BreweryResource::collection($breweries),
+            status: Response::HTTP_OK,
+        );
     }
 }

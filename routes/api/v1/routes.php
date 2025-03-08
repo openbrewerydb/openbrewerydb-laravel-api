@@ -12,8 +12,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/breweries/meta', GetBreweriesMeta::class);
     Route::get('/breweries/random', RandomBrewery::class);
     Route::get('/breweries/search', SearchBreweries::class);
-
-    Route::middleware('cache.headers:public;max_age=300;etag')->group(function () {
-        Route::get('/breweries/{id}', GetBrewery::class);
-    });
+    Route::get('/breweries/{id}', GetBrewery::class);
 });
