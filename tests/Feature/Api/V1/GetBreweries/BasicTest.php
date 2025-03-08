@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api\V1\GetBreweries;
 
-use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {

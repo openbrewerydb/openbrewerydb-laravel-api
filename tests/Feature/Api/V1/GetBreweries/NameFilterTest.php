@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature\Api\V1\GetBreweries;
+
 use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {

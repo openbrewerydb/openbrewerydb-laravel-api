@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\BreweryType;
-use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
