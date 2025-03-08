@@ -21,15 +21,17 @@ class BreweryFactory extends Factory
             'id' => fake()->uuid(),
             'name' => fake()->company(),
             'brewery_type' => fake()->randomElement(BreweryType::cases()),
+            'address_1' => fake()->streetAddress(),
+            'address_2' => fake()->secondaryAddress(),
+            'address_3' => null,
             'city' => fake()->city(),
             'state_province' => fake()->state(),
-            'country' => fake()->countryCode(),
-            'address_1' => fake()->streetAddress(),
             'postal_code' => fake()->postcode(),
-            'website_url' => fake()->url(),
-            'phone' => fake()->phoneNumber(),
-            'latitude' => fake()->latitude(),
+            'country' => fake()->countryCode(),
             'longitude' => fake()->longitude(),
+            'latitude' => fake()->latitude(),
+            'phone' => fake()->phoneNumber(),
+            'website_url' => fake()->url(),
         ];
     }
 

@@ -82,6 +82,8 @@ test('returns all brewery fields', function () {
             'latitude',
             'phone',
             'website_url',
+            'state',
+            'street',
         ]);
 });
 
