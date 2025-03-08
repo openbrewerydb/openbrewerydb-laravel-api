@@ -7,34 +7,6 @@ use App\Enums\BreweryType;
 trait BreweryFilters
 {
     /**
-     * Filter breweries by state.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $state  State name or abbreviation
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeByState($query, string $state)
-    {
-        // Normalize state input by replacing underscores, dashes and plus signs with spaces
-        $state = str_replace(['_', '-', '+'], ' ', $state);
-
-        // Remove any SQL LIKE special characters
-        $state = str_replace(['\\', '%', '_'], '', $state);
-
-        // Convert to lowercase for case-insensitive comparison
-        $state = strtolower(trim($state));
-
-        // If state is exactly 2 characters, treat it as a state abbreviation
-        if (strlen($state) === 2) {
-            return $query->whereRaw('LOWER(state_province) LIKE ?', ['%'.$state.'%']);
-        }
-
-        return $query->where(function ($query) use ($state) {
-            $query->whereRaw('LOWER(state_province) LIKE ?', ['%'.$state.'%']);
-        });
-    }
-
-    /**
      * Order results by distance from given coordinates. Use "6371" for kilometers or "3959" for miles.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

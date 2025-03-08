@@ -68,17 +68,20 @@ test('handles plus as space in state filter', function () {
         ->assertJsonCount(1);
 });
 
-test('returns empty list with state abbreviation', function () {
-    // Create brewery in "California"
+test('returns breweries with state abbreviation', function () {
+    // Create brewery in "Texas"
     createBrewery(['state_province' => 'Texas']);
     createBrewery(['state_province' => 'California']);
 
     // Filter by abbreviation
     $response = $this->getJson('/v1/breweries?by_state=TX');
 
-    // Assert no matches
+    // Assert matches
     $response->assertOk()
-        ->assertJsonCount(0);
+        ->assertJsonCount(1);
+    $states = collect($response->json())->pluck('state_province');
+    expect($states->contains('Texas'))->toBeTrue();
+    expect($states->contains('California'))->toBeFalse();
 });
 
 test('returns empty list with misspelled state', function () {
@@ -104,6 +107,41 @@ test('returns breweries with utf8 state names', function () {
     // Assert matches
     $response->assertOk()
         ->assertJsonCount(1);
+});
+
+test('returns breweries with case-insensitive state matching', function () {
+    // Create brewery in "California"
+    createBrewery(['state_province' => 'California']);
+
+    // Filter by lowercase
+    $response = $this->getJson('/v1/breweries?by_state=california');
+
+    // Assert matches
+    $response->assertOk()
+        ->assertJsonCount(1);
+
+    // Filter by uppercase
+    $response = $this->getJson('/v1/breweries?by_state=CALIFORNIA');
+
+    // Assert matches
+    $response->assertOk()
+        ->assertJsonCount(1);
+});
+
+test('returns breweries with partial state name matching', function () {
+    // Create breweries in different states
+    createBrewery(['state_province' => 'California']);
+    createBrewery(['state_province' => 'New York']);
+    createBrewery(['state_province' => 'Texas']);
+
+    // Filter by partial name
+    $response = $this->getJson('/v1/breweries?by_state=cal');
+
+    // Assert matches
+    $response->assertOk()
+        ->assertJsonCount(1);
+    $states = collect($response->json())->pluck('state_province');
+    expect($states->contains('California'))->toBeTrue();
 });
 
 test('sanitizes sql like characters in state filter', function () {
