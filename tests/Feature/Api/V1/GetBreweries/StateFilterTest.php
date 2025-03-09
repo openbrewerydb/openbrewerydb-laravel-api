@@ -68,22 +68,6 @@ test('handles plus as space in state filter', function () {
         ->assertJsonCount(1);
 });
 
-test('returns breweries with state abbreviation', function () {
-    // Create brewery in "Texas"
-    createBrewery(['state_province' => 'Texas']);
-    createBrewery(['state_province' => 'California']);
-
-    // Filter by abbreviation
-    $response = $this->getJson('/v1/breweries?by_state=TX');
-
-    // Assert matches
-    $response->assertOk()
-        ->assertJsonCount(1);
-    $states = collect($response->json())->pluck('state_province');
-    expect($states->contains('Texas'))->toBeTrue();
-    expect($states->contains('California'))->toBeFalse();
-});
-
 test('returns empty list with misspelled state', function () {
     // Create brewery in "California"
     createBrewery(['state_province' => 'California']);

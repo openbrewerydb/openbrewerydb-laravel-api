@@ -14,7 +14,7 @@ class BreweryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return array_filter([
+        return [
             'id' => $this->id,
             'name' => $this->name,
             'brewery_type' => $this->brewery_type,
@@ -31,7 +31,6 @@ class BreweryResource extends JsonResource
             'website_url' => $this->website_url,
             'state' => $this->state_province,
             'street' => $this->address_1,
-            'distance' => $this->distance ?? null,
-        ]);
+        ];
     }
 }
