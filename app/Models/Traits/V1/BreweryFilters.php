@@ -2,6 +2,8 @@
 
 namespace App\Models\Traits\V1;
 
+use App\Enums\BreweryType;
+
 trait BreweryFilters
 {
     /**
@@ -25,5 +27,36 @@ trait BreweryFilters
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->orderBy('distance');
+    }
+
+    /**
+     * Filter breweries by type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $types  Comma-separated list of brewery types
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByType($query, string $types)
+    {
+        $typeArray = array_map('trim', explode(',', strtolower($types)));
+
+        // Validate each type against the enum
+        $validTypes = [];
+        foreach ($typeArray as $type) {
+            try {
+                // This will throw an exception if the type is invalid
+                $enumType = BreweryType::from($type);
+                $validTypes[] = $enumType->value;
+            } catch (\ValueError $e) {
+                // Skip invalid types
+                continue;
+            }
+        }
+
+        if (empty($validTypes)) {
+            return $query->whereRaw('1 = 0'); // Return no results for invalid types
+        }
+
+        return $query->whereIn('brewery_type', $validTypes);
     }
 }

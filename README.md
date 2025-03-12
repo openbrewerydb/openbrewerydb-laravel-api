@@ -21,14 +21,11 @@ You only need to run "First Time Setup", the first time. After that you can use 
 - Start the development environment `./vendor/bin/sail up -d`
 - Stop the development environment `./vendor/bin/sail down`
 - Refresh the database structure `./vendor/bin/sail migrate:fresh --force`
-- Start the queue worker `./vendor/bin/sail artisan queue:work`
 
 ### 👇 Importing Data
 
 1. To import latest brewery data run `./vendor/bin/sail artisan app:import-breweries`
 2. To refresh the search index run `./vendor/bin/sail artisan app:refresh-search-indexes`
-
-Note: the queue worker needs to be running in order for the imports and jobs to run.
 
 ### 📞 API Docs
 

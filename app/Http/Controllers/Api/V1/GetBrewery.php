@@ -7,7 +7,8 @@ use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache as FacadesCache;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class GetBrewery extends Controller
 {
@@ -16,10 +17,14 @@ class GetBrewery extends Controller
      */
     public function __invoke(Request $request, string $id): JsonResponse
     {
-        $brewery = FacadesCache::remember('brewery_'.$id, 300, function () use ($id) {
+        $brewery = Cache::remember('brewery_'.$id, 300, function () use ($id) {
             return new BreweryResource(Brewery::findOrFail($id));
         });
 
-        return response()->json($brewery);
+        return response()->json(
+            data: $brewery,
+            status: Response::HTTP_OK,
+            headers: ['Cache-Control' => 'public; max-age=300; etag'],
+        );
     }
 }
