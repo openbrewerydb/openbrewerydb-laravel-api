@@ -24,6 +24,7 @@ jobs:
   test-app:
     needs: lint-app
     runs-on: ubuntu-24.04
+    if: github.event.pull_request.draft == false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,6 +55,7 @@ jobs:
     # needs: [lint-app, test-app]
     needs: [lint-app]
     runs-on: ubuntu-24.04
+    if: github.event.pull_request.draft == false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
