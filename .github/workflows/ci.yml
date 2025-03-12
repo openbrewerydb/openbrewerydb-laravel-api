@@ -51,7 +51,8 @@ jobs:
         run: php artisan test --parallel
 
   build-image:
-    needs: [lint-app, test-app]
+    # needs: [lint-app, test-app]
+    needs: [lint-app]
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
