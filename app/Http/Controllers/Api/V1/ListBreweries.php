@@ -17,7 +17,7 @@ class ListBreweries extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
-            'per_page' => ['integer', 'min:1', 'max:500'],
+            'per_page' => ['sometimes', 'required', 'integer', 'min:1', 'max:200'],
             'page' => ['integer', 'min:1'],
             'sort' => ['string'],
 
@@ -125,23 +125,7 @@ class ListBreweries extends Controller
                 }
             })
             ->orderBy('id')
-            ->when(
-                $request->has('per_page') && $request->input('per_page') > 200,
-                function ($query) {
-                    return $query->paginate(
-                        perPage: 200,
-                        columns: ['*'],
-                        pageName: 'page'
-                    );
-                },
-                function ($query) use ($request) {
-                    return $query->paginate(
-                        perPage: $request->input('per_page', 50),
-                        columns: ['*'],
-                        pageName: 'page'
-                    );
-                }
-            );
+            ->paginate(perPage: $request->integer('per_page', 50));
 
         return response()->json(
             BreweryResource::collection($breweries),
