@@ -46,7 +46,8 @@ class Brewery extends Model
                         + sin(radians($latitude))
                         * sin(radians(latitude))))";
 
-        return $query->selectRaw("{$haversine} AS distance")
+        return $query->select('*')
+            ->selectRaw("{$haversine} AS distance")
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->orderBy('distance');
