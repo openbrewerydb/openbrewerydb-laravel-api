@@ -64,5 +64,12 @@ test('returns HTTP error 422 with invalid params', function () {
         'by_state' => ['invalid', 'array'], // Should be string
     ]));
 
-    $response->assertStatus(422);
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors([
+            'per_page',
+            'sort',
+            'by_city',
+            'by_type',
+            'by_state',
+        ]);
 });
