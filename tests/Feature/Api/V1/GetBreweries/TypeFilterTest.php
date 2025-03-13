@@ -29,7 +29,7 @@ test('returns breweries filtered by type', function () {
     expect($types->contains('micro'))->toBeTrue();
 });
 
-test('returns empty list for invalid brewery type', function () {
+test('returns validation error when an invalid brewery type is provided', function () {
     // Create breweries of different types
     createBreweries(5, [
         'brewery_type' => BreweryType::Micro,
@@ -42,8 +42,8 @@ test('returns empty list for invalid brewery type', function () {
     $response = $this->getJson('/v1/breweries?by_type=invalid');
 
     // Assert no matches
-    $response->assertOk()
-        ->assertJsonCount(0);
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['by_type']);
 });
 
 test('returns breweries filtered by multiple types', function () {

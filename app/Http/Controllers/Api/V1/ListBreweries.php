@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
+use App\Rules\BreweryType as BreweryTypeRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -28,9 +29,9 @@ class ListBreweries extends Controller
             'by_name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_postal' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_state' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
-            'by_type' => ['sometimes', 'required', 'string', 'min:3', 'max:100'],
+            'by_type' => ['sometimes', 'required', 'string', new BreweryTypeRule],
             'by_ids' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
-            'exclude_types' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
+            'exclude_types' => ['sometimes', 'required', 'string', new BreweryTypeRule],
         ]);
 
         $breweries = Brewery::query()

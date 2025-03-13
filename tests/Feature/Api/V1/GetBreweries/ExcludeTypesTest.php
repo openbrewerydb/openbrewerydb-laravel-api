@@ -60,6 +60,7 @@ test('exclude types handles invalid type values', function () {
     ]);
 
     $response = $this->getJson('/v1/breweries?exclude_types=invalid_type');
-    $response->assertOk();
-    expect($response->json())->toHaveCount(1);
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['exclude_types']);
 });
