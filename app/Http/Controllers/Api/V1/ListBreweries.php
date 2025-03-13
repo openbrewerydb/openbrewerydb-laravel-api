@@ -26,7 +26,7 @@ class ListBreweries extends Controller
             'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_country' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_dist' => ['sometimes', 'required', 'string', new CoordinatesRule],
-            'by_ids' => ['sometimes', 'required', 'string', 'min:3', 'max:255'], // ! this aint right
+            'by_ids' => ['sometimes', 'required', 'string', 'min:3', 'max:255'], // ! this aint right, need to validate as array and that they're uuid v4
             'by_name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_postal' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_state' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
