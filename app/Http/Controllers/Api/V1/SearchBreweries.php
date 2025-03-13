@@ -7,7 +7,6 @@ use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 
 class SearchBreweries extends Controller
 {
@@ -16,13 +15,9 @@ class SearchBreweries extends Controller
      */
     public function __invoke(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'query' => 'required|string',
+        $request->validate([
+            'query' => ['required', 'string', 'min:3', 'max:255'],
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
 
         $query = urldecode(string: $request->string('query')->trim());
 

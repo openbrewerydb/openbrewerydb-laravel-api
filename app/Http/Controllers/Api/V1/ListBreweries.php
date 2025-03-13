@@ -7,7 +7,6 @@ use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ListBreweries extends Controller
@@ -17,26 +16,22 @@ class ListBreweries extends Controller
      */
     public function __invoke(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'per_page' => 'integer|min:1|max:500',
-            'page' => 'integer|min:1',
-            'sort' => 'string',
+        $request->validate([
+            'per_page' => ['integer', 'min:1', 'max:500'],
+            'page' => ['integer', 'min:1'],
+            'sort' => ['string'],
 
             // filters
-            'by_city' => 'string|max:255',
-            'by_country' => 'string|max:255',
-            'by_dist' => 'string|regex:/^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/',
-            'by_name' => 'string|max:255',
-            'by_postal' => 'string|max:255',
-            'by_state' => 'string|max:255',
-            'by_type' => 'string|max:100',
-            'by_ids' => 'string|max:255',
-            'exclude_types' => 'string|max:255',
+            'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
+            'by_country' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
+            'by_dist' => ['sometimes', 'required', 'string', 'regex:/^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/'],
+            'by_name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
+            'by_postal' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
+            'by_state' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
+            'by_type' => ['sometimes', 'required', 'string', 'min:3', 'max:100'],
+            'by_ids' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
+            'exclude_types' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
 
         $breweries = Brewery::query()
             ->select('*')
