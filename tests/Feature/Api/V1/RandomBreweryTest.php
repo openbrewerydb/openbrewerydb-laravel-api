@@ -5,7 +5,7 @@ test('random brewery returns a single brewery by default', function () {
 
     $response = $this->getJson('/v1/breweries/random');
 
-    $response->assertStatus(200)
+    $response->assertOk()
         ->assertJsonCount(1);
 });
 
@@ -14,7 +14,7 @@ test('random brewery returns the requested number of breweries', function () {
 
     $response = $this->getJson('/v1/breweries/random?size=3');
 
-    $response->assertStatus(200)
+    $response->assertOk()
         ->assertJsonCount(3);
 });
 
@@ -39,14 +39,14 @@ test('random brewery returns all available breweries when size is greater than t
 
     $response = $this->getJson('/v1/breweries/random?size=5');
 
-    $response->assertStatus(200)
+    $response->assertOk()
         ->assertJsonCount(3);
 });
 
 test('random brewery returns empty array when no breweries exist', function () {
     $response = $this->getJson('/v1/breweries/random');
 
-    $response->assertStatus(200)
+    $response->assertOk()
         ->assertJsonCount(0);
 });
 
@@ -78,7 +78,7 @@ test('random brewery returns complete brewery resource', function () {
 
     $response = $this->getJson('/v1/breweries/random');
 
-    $response->assertStatus(200)
+    $response->assertOk()
         ->assertJsonCount(1)
         ->assertJsonStructure([[
             'id',
