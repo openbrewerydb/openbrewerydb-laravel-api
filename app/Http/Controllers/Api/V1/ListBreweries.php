@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use App\Rules\BreweryType as BreweryTypeRule;
+use App\Rules\Coordinates as CoordinatesRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -25,7 +26,7 @@ class ListBreweries extends Controller
             // filters
             'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_country' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
-            'by_dist' => ['sometimes', 'required', 'string', 'regex:/^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/'],
+            'by_dist' => ['sometimes', 'required', 'string', new CoordinatesRule],
             'by_name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_postal' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_state' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],

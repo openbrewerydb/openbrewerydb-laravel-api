@@ -42,7 +42,8 @@ test('distance filter validates coordinates format', function () {
 
     foreach ($invalidFormats as $format) {
         $response = $this->getJson('/v1/breweries?by_dist='.$format);
-        $response->assertStatus(400);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors('by_dist');
     }
 });
 
@@ -67,7 +68,7 @@ test('distance filter accepts valid coordinate edge cases', function () {
 
     foreach ($validFormats as $format) {
         $response = $this->getJson('/v1/breweries?by_dist='.$format);
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 });
 
