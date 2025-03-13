@@ -2,61 +2,87 @@
 
 namespace App\Models\Traits\V1;
 
-use App\Enums\BreweryType;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 trait BreweryFilters
 {
     /**
-     * Order results by distance from given coordinates. Use "6371" for kilometers or "3959" for miles.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  float  $latitude
-     * @param  float  $longitude
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Scope a query to apply filters.
      */
-    public function scopeOrderByDistance($query, $latitude, $longitude)
+    public function scopeApplyFilters(Builder $query, Request $request): Builder
     {
-        $haversine = "(3959 * acos(cos(radians($latitude))
-                        * cos(radians(latitude))
-                        * cos(radians(longitude)
-                        - radians($longitude))
-                        + sin(radians($latitude))
-                        * sin(radians(latitude))))";
+        return $query
+            ->when($request->has('by_city'), function (Builder $query) use ($request) {
+                $pattern = urldecode($request->input('by_city'));
 
-        return $query->selectRaw("{$haversine} AS distance")
-            ->whereNotNull('latitude')
-            ->whereNotNull('longitude')
-            ->orderBy('distance');
+                $query->whereLike('city', "%{$pattern}%");
+            })
+            ->when($request->has('by_country'), function (Builder $query) use ($request) {
+                $pattern = urldecode($request->input('by_country'));
+
+                $query->whereLike('country', "%{$pattern}%");
+            })
+            // ->when($request->has('by_dist'), function (Builder $query) use ($request) {
+            //     [$latitude, $longitude] = explode(',', $request->input('by_dist'));
+
+            //     $query->orderByDistance($latitude, $longitude);
+            // })
+            ->when($request->has('by_ids'), function (Builder $query) use ($request) {
+                $values = array_map('trim', explode(',', $request->input('by_ids')));
+
+                $query->whereIn('id', $values);
+            })
+            ->when($request->has('by_name'), function (Builder $query) use ($request) {
+                $pattern = urldecode($request->input('by_name'));
+
+                $query->whereLike('name', "%{$pattern}%");
+            })
+            ->when($request->has('by_postal'), function (Builder $query) use ($request) {
+                $pattern = urldecode($request->input('by_postal'));
+
+                $query->whereLike('postal_code', "%{$pattern}%");
+            })
+            ->when($request->has('by_state'), function (Builder $query) use ($request) {
+                $pattern = urldecode($request->input('by_state'));
+
+                $query->whereLike('state_province', "%{$pattern}%");
+            })
+            ->when($request->has('by_type'), function (Builder $query) use ($request) {
+                $types = array_map('trim', explode(',', $request->input('by_type')));
+
+                $query->whereIn('brewery_type', $types);
+            })
+            ->when($request->has('exclude_types'), function (Builder $query) use ($request) {
+                $types = array_map('trim', explode(',', $request->input('exclude_types')));
+
+                $query->whereNotIn('brewery_type', $types);
+            });
     }
 
     /**
-     * Filter breweries by type.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $types  Comma-separated list of brewery types
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Scope a query to apply sorts.
      */
-    public function scopeByType($query, string $types)
+    public function scopeApplySorts(Builder $query, Request $request): Builder
     {
-        $typeArray = array_map('trim', explode(',', strtolower($types)));
+        return $query
+            ->when($request->has('by_dist'), function (Builder $query) use ($request) {
+                [$latitude, $longitude] = array_map('trim', explode(',', $request->input('by_dist')));
 
-        // Validate each type against the enum
-        $validTypes = [];
-        foreach ($typeArray as $type) {
-            try {
-                // This will throw an exception if the type is invalid
-                $enumType = BreweryType::from($type);
-                $validTypes[] = $enumType->value;
-            } catch (\ValueError $e) {
-                // Skip invalid types
-                continue;
-            }
-        }
+                $query->orderByDistance($latitude, $longitude);
+            })
+            ->when($request->has('sort'), function (Builder $query) use ($request) {
+                $values = explode(',', $request->input('sort'));
 
-        if (empty($validTypes)) {
-            return $query->whereRaw('1 = 0'); // Return no results for invalid types
-        }
+                $values = collect($values)
+                    ->map(function ($value) {
+                        return array_map('trim', explode(':', $value));
+                    })
+                    ->toArray();
 
-        return $query->whereIn('brewery_type', $validTypes);
+                foreach ($values as $value) {
+                    $query->orderBy($value[0], $value[1] ?? 'asc');
+                }
+            });
     }
 }
