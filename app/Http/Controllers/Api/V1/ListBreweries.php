@@ -29,19 +29,9 @@ class ListBreweries extends Controller
             'by_name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_postal' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_state' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
-            'by_type' => [
-                'sometimes',
-                'required',
-                'string',
-                new BreweryTypeRule,
-            ],
+            'by_type' => ['sometimes', 'required', 'string', new BreweryTypeRule],
             'by_ids' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
-            'exclude_types' => [
-                'sometimes',
-                'required',
-                'string',
-                new BreweryTypeRule,
-            ],
+            'exclude_types' => ['sometimes', 'required', 'string', new BreweryTypeRule],
         ]);
 
         $breweries = Brewery::query()
