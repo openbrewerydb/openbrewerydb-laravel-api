@@ -16,13 +16,14 @@ class SearchBreweries extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
+            'per_page' => ['sometimes', 'required', 'integer', 'min:1', 'max:200'],
             'query' => ['required', 'string', 'min:3', 'max:255'],
         ]);
 
         $query = urldecode(string: $request->string('query')->trim());
 
         $breweries = Brewery::search(query: $query)
-            ->simplePaginate($request->input('per_page', 50));
+            ->simplePaginate(perPage: $request->integer('per_page', 50));
 
         return response()->json(
             data: BreweryResource::collection($breweries),
