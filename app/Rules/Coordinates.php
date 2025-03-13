@@ -20,6 +20,7 @@ class Coordinates implements ValidationRule
         // Check if we have exactly two parts
         if (count($parts) !== 2) {
             $fail('The :attribute must be a valid coordinate pair (latitude,longitude).');
+
             return;
         }
 
@@ -28,14 +29,16 @@ class Coordinates implements ValidationRule
         $longitude = trim($parts[1]);
 
         // Validate latitude: must be between -90 and 90
-        if (!is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
+        if (! is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
             $fail('The latitude in :attribute must be a number between -90 and 90.');
+
             return;
         }
 
         // Validate longitude: must be between -180 and 180
-        if (!is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
+        if (! is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
             $fail('The longitude in :attribute must be a number between -180 and 180.');
+
             return;
         }
     }
