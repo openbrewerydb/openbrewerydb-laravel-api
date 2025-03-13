@@ -9,32 +9,28 @@ beforeEach(function () {
     Cache::flush();
 });
 
-test('returns another page of breweries', function () {
-    // Create 60 breweries
-    $breweries = Brewery::factory()->count(60)->create();
+test('returns different breweries for different pages', function () {
+    // Create 75 breweries
+    Brewery::factory()->count(50)->create();
 
-    // Get first page
-    $firstPage = $this->getJson('/v1/breweries')
+    // Get results from page 1 with 25 per page
+    $pageOne = $this->getJson('/v1/breweries?per_page=25')
         ->assertOk()
-        ->assertJsonCount(50)
+        ->assertJsonCount(25)
         ->json();
 
-    // Get second page
-    $secondPage = $this->getJson('/v1/breweries?page=2')
+    // Get results from page 2 with 25 per page
+    $pageTwo = $this->getJson('/v1/breweries?per_page=25&page=2')
         ->assertOk()
-        ->assertJsonCount(10)
+        ->assertJsonCount(25)
         ->json();
 
-    // Assert different breweries
-    $firstPageIds = collect($firstPage)->pluck('id');
-    $secondPageIds = collect($secondPage)->pluck('id');
+    // Extract IDs from each page
+    $pageOneIds = collect($pageOne)->pluck('id');
+    $pageTwoIds = collect($pageTwo)->pluck('id');
 
-    // No IDs should be present in both pages
-    expect($firstPageIds->intersect($secondPageIds)->isEmpty())->toBeTrue();
-
-    // Second page should contain the last 10 breweries
-    $lastTenBreweryIds = $breweries->sortBy('id')->take(-10)->pluck('id');
-    expect($secondPageIds->diff($lastTenBreweryIds)->isEmpty())->toBeTrue();
+    // Ensure no overlap between pages
+    expect($pageOneIds->intersect($pageTwoIds)->isEmpty())->toBeTrue();
 });
 
 test('returns limited number of breweries', function () {

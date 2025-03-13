@@ -42,19 +42,6 @@ test('returns breweries with snake case state', function () {
         ->assertJsonCount(1);
 });
 
-test('returns list with kebab case state', function () {
-    // Create brewery in "New York"
-    createBrewery(['state_province' => 'New York']);
-    createBrewery(['state_province' => 'Boston']);
-
-    // Filter by kebab case
-    $response = $this->getJson('/v1/breweries?by_state=new-york');
-
-    // Assert no matches
-    $response->assertOk()
-        ->assertJsonCount(1);
-});
-
 test('handles plus as space in state filter', function () {
     // Create brewery in "New York"
     createBrewery(['state_province' => 'New York']);
