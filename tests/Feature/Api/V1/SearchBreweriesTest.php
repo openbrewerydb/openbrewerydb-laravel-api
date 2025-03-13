@@ -8,17 +8,17 @@ beforeEach(function () {
     Cache::flush();
 });
 
-test('returns 400 when query parameter is missing', function () {
+test('returns 422 when query parameter is missing', function () {
     $response = $this->getJson('/v1/breweries/search');
 
-    $response->assertStatus(400)
+    $response->assertStatus(422)
         ->assertJsonValidationErrors(['query']);
 });
 
-test('returns 400 when query parameter is empty', function () {
+test('returns 422 when query parameter is empty', function () {
     $response = $this->getJson('/v1/breweries/search?query=');
 
-    $response->assertStatus(400)
+    $response->assertStatus(422)
         ->assertJsonValidationErrors(['query']);
 });
 
