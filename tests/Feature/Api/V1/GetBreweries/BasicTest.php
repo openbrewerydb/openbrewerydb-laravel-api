@@ -51,7 +51,7 @@ test('returns cache control headers', function () {
     $response->assertOk()->assertHeader('Cache-Control', 'max-age=300, public');
 });
 
-test('returns HTTP error 400 with invalid params', function () {
+test('returns HTTP error 422 with invalid params', function () {
     // Create breweries to test with
     createBreweries(60);
 
@@ -64,5 +64,5 @@ test('returns HTTP error 400 with invalid params', function () {
         'by_state' => ['invalid', 'array'], // Should be string
     ]));
 
-    $response->assertStatus(400);
+    $response->assertStatus(422);
 });
