@@ -30,7 +30,7 @@ WORKDIR /var/www/html
 COPY --chown=www-data:www-data . /var/www/html
 
 # Install the composer dependencies
-RUN composer install --no-dev --no-interaction --no-progress --no-suggest --optimize-autoloader --prefer-dist
+RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader --prefer-dist
 
 ########################
 # Production Image

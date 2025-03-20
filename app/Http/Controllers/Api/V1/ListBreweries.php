@@ -7,13 +7,17 @@ use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use App\Rules\BreweryType as BreweryTypeRule;
 use App\Rules\Coordinates as CoordinatesRule;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+#[Group(name: 'Breweries', weight: 0)]
 class ListBreweries extends Controller
 {
     /**
-     * Handle the incoming request.
+     * List breweries
+     *
+     * List all breweries.
      */
     public function __invoke(Request $request)
     {
@@ -37,7 +41,7 @@ class ListBreweries extends Controller
         $breweries = Brewery::query()
             ->applyFilters($request)
             ->applySorts($request)
-            ->paginate(perPage: $request->integer('per_page', 50));
+            ->paginate($request->integer('per_page', 50));
 
         return response()->json(
             BreweryResource::collection($breweries),

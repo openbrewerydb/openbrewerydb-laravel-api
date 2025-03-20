@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
+#[Group(name: 'Breweries', weight: 3)]
 class RandomBrewery extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Get random brewery.
+     *
+     * Get a random brewery from the database.
      */
     public function __invoke(Request $request, int $size = 1)
     {
