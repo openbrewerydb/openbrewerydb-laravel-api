@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "dedoc/scramble": "^0.12.12",
         "http-interop/http-factory-guzzle": "^1.2",
         "laravel/framework": "^12.1.1",
         "laravel/scout": "^10.13.1",

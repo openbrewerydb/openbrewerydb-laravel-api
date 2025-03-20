@@ -5,15 +5,19 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryMetaResource;
 use App\Models\Brewery;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
+#[Group(name: 'Breweries', weight: 4)]
 class GetBreweriesMeta extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Get meta
+     *
+     * Get meta information about breweries.
      */
     public function __invoke(Request $request)
     {
