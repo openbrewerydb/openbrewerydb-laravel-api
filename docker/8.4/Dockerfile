@@ -30,7 +30,7 @@ RUN apt-get update && apt-get upgrade -y \
        php8.4-xml php8.4-zip php8.4-bcmath php8.4-soap \
        php8.4-intl php8.4-readline \
        php8.4-msgpack php8.4-igbinary \
-       php8.4-pcov php8.4-xdebug \
+       php8.4-pcov php8.4-xdebug php8.4-excimer \
     && curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
     && apt-get -y autoremove \
     && apt-get clean \

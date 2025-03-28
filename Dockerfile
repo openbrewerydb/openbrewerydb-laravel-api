@@ -20,7 +20,7 @@ ENV PHP_MAX_EXECUTION_TIME="60" \
 USER root
 
 # Install the additional packages
-RUN install-php-extensions sqlite3 \
+RUN install-php-extensions excimer sqlite3 \
     && rm -rf /var/cache/apk/*
 
 # Set the working directory
