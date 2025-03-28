@@ -6,21 +6,20 @@ FROM serversideup/php:8.4-fpm-nginx-alpine-v3.5.2 AS base
 LABEL org.opencontainers.image.title="Open Brewery DB API" \
       org.opencontainers.image.description="Laravel implementation of the Open Brewery DB API" \
       org.opencontainers.image.authors="Chris Mears (@chrisjm), Alex Justesen (@alexjustesen)" \
-      org.opencontainers.image.source="https://github.com/alexjustesen/obdb-api"
+      org.opencontainers.image.source="https://github.com/openbrewerydb/openbrewerydb-laravel-api"
 
 ARG WWWGROUP
 
-ENV PHP_MAX_EXECUTION_TIME="60" \
-    PHP_OPCACHE_ENABLE="1" \
-    PHP_POST_MAX_SIZE="8M" \
-    PHP_UPLOAD_MAX_FILESIZE="8M" \
+ENV PHP_OPCACHE_ENABLE="1" \
     SHOW_WELCOME_MESSAGE="false"
 
 # Switch to the root user so we can do root things
 USER root
 
+COPY ./src/etc /etc
+
 # Install the additional packages
-RUN install-php-extensions excimer sqlite3 \
+RUN install-php-extensions excimer \
     && rm -rf /var/cache/apk/*
 
 # Set the working directory
