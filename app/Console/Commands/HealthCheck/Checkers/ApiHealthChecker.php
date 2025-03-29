@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands\HealthCheck\Checkers;
 
-use App\Console\Commands\HealthCheck\HealthCheckerInterface;
-use Illuminate\Support\Facades\Http;
+use App\Console\Commands\HealthCheck\BaseChecker;
+use App\Console\Commands\HealthCheck\Traits\ApiTestingTrait;
 use Illuminate\Support\Facades\Route;
 
-class ApiHealthChecker implements HealthCheckerInterface
+class ApiHealthChecker extends BaseChecker
 {
+    use ApiTestingTrait;
+
     /**
      * Maximum acceptable response time in milliseconds.
      *
@@ -16,26 +18,18 @@ class ApiHealthChecker implements HealthCheckerInterface
     protected $maxResponseTime = 2000;
 
     /**
-     * Run the health check.
+     * Implement the actual health check logic.
      *
      * @param  bool  $detailed  Whether to show detailed information
-     * @return array Array with success status and any issues found
+     * @return void
      */
-    public function check(bool $detailed = false): array
+    protected function runCheck(bool $detailed): void
     {
-        $issues = [];
-        $details = [];
-
         // Get the application URL
         $appUrl = config('app.url');
         if (empty($appUrl)) {
-            $issues[] = 'Application URL is not configured';
-
-            return [
-                'success' => false,
-                'issues' => $issues,
-                'details' => $details,
-            ];
+            $this->addIssue('Application URL is not configured');
+            return;
         }
 
         // Check main API endpoints
@@ -46,67 +40,59 @@ class ApiHealthChecker implements HealthCheckerInterface
         ];
 
         foreach ($endpoints as $endpoint => $method) {
-            try {
-                $url = rtrim($appUrl, '/').$endpoint;
-                $startTime = microtime(true);
+            $url = rtrim($appUrl, '/') . $endpoint;
+            $result = $this->testEndpoint($url, $method, $this->maxResponseTime);
 
-                $response = Http::timeout(5)->withHeaders([
-                    'Accept' => 'application/json',
-                ])->$method($url);
+            if (isset($result['error'])) {
+                $this->addIssue("Error checking endpoint {$endpoint}: {$result['error']}");
+                continue;
+            }
 
-                $endTime = microtime(true);
-                $responseTime = round(($endTime - $startTime) * 1000); // in milliseconds
+            if (!$result['success']) {
+                $this->addIssue("Endpoint {$endpoint} returned status code {$result['status']}");
+            }
 
-                if (! $response->successful()) {
-                    $issues[] = "Endpoint {$endpoint} returned status code {$response->status()}";
+            if ($result['tooSlow']) {
+                $this->addIssue("Endpoint {$endpoint} response time ({$result['time']}ms) exceeds maximum ({$this->maxResponseTime}ms)");
+            }
+
+            if ($detailed) {
+                $this->addDetail("Endpoint {$endpoint} - Status: {$result['status']}, Response Time: {$result['time']}ms");
+                
+                if (isset($result['body'])) {
+                    $this->addDetail('  Response: ' . $this->formatResponseSummary($result['body']));
                 }
-
-                if ($responseTime > $this->maxResponseTime) {
-                    $issues[] = "Endpoint {$endpoint} response time ({$responseTime}ms) exceeds maximum ({$this->maxResponseTime}ms)";
-                }
-
-                if ($detailed) {
-                    $details[] = "Endpoint {$endpoint} - Status: {$response->status()}, Response Time: {$responseTime}ms";
-
-                    // Add response body summary if detailed
-                    $body = $response->json();
-                    if (is_array($body)) {
-                        if (isset($body['data']) && is_array($body['data'])) {
-                            $details[] = '  Response: '.count($body['data']).' items returned';
-                        } else {
-                            $details[] = '  Response: Valid JSON returned';
-                        }
-                    }
-                }
-            } catch (\Exception $e) {
-                $issues[] = "Error checking endpoint {$endpoint}: ".$e->getMessage();
             }
         }
 
         // List all available API routes if detailed
         if ($detailed) {
-            $apiRoutes = collect(Route::getRoutes())->filter(function ($route) {
-                return strpos($route->uri, 'api/') === 0;
-            })->map(function ($route) {
-                return [
-                    'methods' => implode('|', $route->methods),
-                    'uri' => $route->uri,
-                    'name' => $route->getName(),
-                ];
-            })->values();
-
-            $details[] = 'Available API Routes: '.$apiRoutes->count();
-
-            foreach ($apiRoutes as $route) {
-                $details[] = "  [{$route['methods']}] {$route['uri']}";
-            }
+            $this->listApiRoutes();
         }
+    }
 
-        return [
-            'success' => empty($issues),
-            'issues' => $issues,
-            'details' => $details,
-        ];
+    /**
+     * List all available API routes.
+     *
+     * @return void
+     */
+    protected function listApiRoutes(): void
+    {
+        $apiRoutes = collect(Route::getRoutes())->filter(function ($route) {
+            return strpos($route->uri, 'api/') === 0;
+        })->map(function ($route) {
+            return [
+                'methods' => implode('|', $route->methods),
+                'uri' => $route->uri,
+                'name' => $route->getName(),
+            ];
+        })->values();
+
+        $this->addDetail('Available API Routes: ' . $apiRoutes->count());
+
+        foreach ($apiRoutes as $route) {
+            $this->addDetail("  [{$route['methods']}] {$route['uri']}");
+        }
     }
 
     /**

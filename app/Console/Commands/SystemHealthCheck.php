@@ -11,6 +11,7 @@ use App\Console\Commands\HealthCheck\Checkers\PerformanceHealthChecker;
 use App\Console\Commands\HealthCheck\Checkers\SearchHealthChecker;
 use App\Console\Commands\HealthCheck\Fixers\DatabaseHealthFixer;
 use App\Console\Commands\HealthCheck\Fixers\SearchHealthFixer;
+use App\Console\Commands\HealthCheck\HealthCheckOutputFormatter;
 use Illuminate\Console\Command;
 use Laravel\Scout\EngineManager;
 
@@ -65,7 +66,7 @@ class SystemHealthCheck extends Command
     public function handle(EngineManager $engineManager)
     {
         $this->newLine();
-        $this->components->info('Starting system health check...');
+        $this->info('Starting system health check...');
         $this->newLine();
 
         // Initialize checkers and fixers
@@ -105,7 +106,7 @@ class SystemHealthCheck extends Command
         // Fix issues if requested
         if ($this->option('fix') && ! empty($allIssues)) {
             $this->newLine();
-            $this->components->info('Attempting to fix issues...');
+            $this->info('Attempting to fix issues...');
 
             foreach ($this->fixers as $fixer) {
                 $fixerName = $fixer->getName();
@@ -126,49 +127,18 @@ class SystemHealthCheck extends Command
 
         $this->newLine();
 
-        // Handle output based on format
+        // Use the output formatter to handle output based on format
         $outputFormat = $this->option('output');
-
+        $formattedOutput = HealthCheckOutputFormatter::format(
+            $checkResults,
+            $allIssues,
+            $allFixedIssues,
+            $outputFormat,
+            $this
+        );
+        
         if ($outputFormat === 'json') {
-            // JSON output format
-            $output = [
-                'timestamp' => now()->toIso8601String(),
-                'status' => empty($allIssues) ? 'healthy' : 'issues_detected',
-                'issues_count' => count($allIssues),
-                'fixed_count' => count($allFixedIssues),
-                'checks' => $checkResults,
-                'issues' => $allIssues,
-                'fixed' => $allFixedIssues,
-            ];
-
-            $this->line(json_encode($output, JSON_PRETTY_PRINT));
-        } else {
-            // CLI output format (default)
-            if (empty($allIssues)) {
-                $this->components->info('System health check completed. No issues found!');
-            } else {
-                $this->components->error('System health check completed. Issues found:');
-
-                foreach ($allIssues as $issue) {
-                    $this->line(" - {$issue}");
-                }
-
-                if (! empty($allFixedIssues)) {
-                    $this->newLine();
-                    $this->components->info('The following issues were fixed:');
-
-                    foreach ($allFixedIssues as $fixed) {
-                        $this->line(" - {$fixed}");
-                    }
-                }
-
-                if (count($allIssues) > count($allFixedIssues)) {
-                    $this->newLine();
-                    $this->components->warn('Some issues could not be automatically fixed. Consider running:');
-                    $this->line(' - php artisan emergency:db-reset --force');
-                    $this->line(' - php artisan emergency:search-repair --force --recreate-index');
-                }
-            }
+            $this->line($formattedOutput);
         }
 
         return empty($allIssues) || ! empty($allFixedIssues) ? 0 : 1;

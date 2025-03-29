@@ -2,73 +2,59 @@
 
 namespace App\Console\Commands\HealthCheck\Checkers;
 
-use App\Console\Commands\HealthCheck\HealthCheckerInterface;
+use App\Console\Commands\HealthCheck\BaseChecker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
-class DatabaseHealthChecker implements HealthCheckerInterface
+class DatabaseHealthChecker extends BaseChecker
 {
     /**
-     * Run the health check.
+     * Implement the actual health check logic.
      *
      * @param  bool  $detailed  Whether to show detailed information
-     * @return array Array with success status and any issues found
+     * @return void
      */
-    public function check(bool $detailed = false): array
+    protected function runCheck(bool $detailed): void
     {
-        $issues = [];
-        $details = [];
-
         // Check 1: Database file existence
         $dbPath = config('database.connections.sqlite.database');
         $dbExists = File::exists($dbPath);
 
         if (! $dbExists) {
-            $issues[] = "Database file not found at {$dbPath}";
+            $this->addIssue("Database file not found at {$dbPath}");
+            return; // Stop further checks if database doesn't exist
         }
 
         // Check 2: Database file permissions
-        if ($dbExists) {
-            $isWritable = is_writable($dbPath);
-            if (! $isWritable) {
-                $issues[] = 'Database file is not writable';
-            }
+        $isWritable = is_writable($dbPath);
+        if (! $isWritable) {
+            $this->addIssue('Database file is not writable');
         }
 
         // Check 3: Database structure
-        if ($dbExists) {
-            try {
-                $hasBreweriesTable = Schema::hasTable('breweries');
-                if (! $hasBreweriesTable) {
-                    $issues[] = 'Breweries table does not exist in the database';
-                }
-            } catch (\Exception $e) {
-                $issues[] = 'Error checking database structure: '.$e->getMessage();
+        try {
+            $hasBreweriesTable = Schema::hasTable('breweries');
+            if (! $hasBreweriesTable) {
+                $this->addIssue('Breweries table does not exist in the database');
             }
+        } catch (\Exception $e) {
+            $this->addIssue('Error checking database structure: ' . $e->getMessage());
         }
 
         // Check 4: Database data
-        if ($dbExists) {
-            try {
-                $breweriesCount = DB::table('breweries')->count();
-                if ($breweriesCount === 0) {
-                    $issues[] = 'No breweries found in the database';
-                }
-
-                if ($detailed) {
-                    $details[] = "Found {$breweriesCount} breweries in the database";
-                }
-            } catch (\Exception $e) {
-                $issues[] = 'Error checking database data: '.$e->getMessage();
+        try {
+            $breweriesCount = DB::table('breweries')->count();
+            if ($breweriesCount === 0) {
+                $this->addIssue('No breweries found in the database');
             }
-        }
 
-        return [
-            'success' => empty($issues),
-            'issues' => $issues,
-            'details' => $details,
-        ];
+            if ($detailed) {
+                $this->addDetail("Found {$breweriesCount} breweries in the database");
+            }
+        } catch (\Exception $e) {
+            $this->addIssue('Error checking database data: ' . $e->getMessage());
+        }
     }
 
     /**
