@@ -17,7 +17,6 @@ class SearchHealthFixer implements HealthFixerInterface
     /**
      * Create a new search health fixer instance.
      *
-     * @param \Illuminate\Console\Command $command
      * @return void
      */
     public function __construct(Command $command)
@@ -28,13 +27,13 @@ class SearchHealthFixer implements HealthFixerInterface
     /**
      * Fix the health issues.
      *
-     * @param array $issues The issues to fix
+     * @param  array  $issues  The issues to fix
      * @return array Array with success status and fixed issues
      */
     public function fix(array $issues): array
     {
         $fixedIssues = [];
-        
+
         // Fix search index issues
         try {
             $this->command->callSilent('emergency:search-repair', ['--force' => true, '--recreate-index' => true]);
@@ -42,17 +41,15 @@ class SearchHealthFixer implements HealthFixerInterface
         } catch (\Exception $e) {
             // Repair failed
         }
-        
+
         return [
-            'success' => !empty($fixedIssues),
+            'success' => ! empty($fixedIssues),
             'fixed' => $fixedIssues,
         ];
     }
-    
+
     /**
      * Get the name of the health fixer.
-     *
-     * @return string
      */
     public function getName(): string
     {

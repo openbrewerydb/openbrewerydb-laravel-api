@@ -78,47 +78,47 @@ class SystemHealthCheck extends Command
         $checkResults = [];
         foreach ($this->checkers as $category => $checker) {
             $checkName = $checker->getName();
-            
+
             $this->components->task("Checking {$checkName}", function () use ($checker, &$allIssues, &$checkResults, $category) {
                 $result = $checker->check($this->option('detailed'));
-                
+
                 // Store the result for potential JSON output
                 $checkResults[$category] = $result;
-                
-                if (!$result['success']) {
+
+                if (! $result['success']) {
                     $allIssues = array_merge($allIssues, $result['issues']);
-                    
+
                     return false;
                 }
-                
+
                 // Display detailed information if available
-                if (!empty($result['details']) && $this->option('detailed')) {
+                if (! empty($result['details']) && $this->option('detailed')) {
                     foreach ($result['details'] as $detail) {
                         $this->info("  {$detail}");
                     }
                 }
-                
+
                 return true;
             });
         }
 
         // Fix issues if requested
-        if ($this->option('fix') && !empty($allIssues)) {
+        if ($this->option('fix') && ! empty($allIssues)) {
             $this->newLine();
             $this->components->info('Attempting to fix issues...');
 
             foreach ($this->fixers as $fixer) {
                 $fixerName = $fixer->getName();
-                
+
                 $this->components->task("Fixing {$fixerName} issues", function () use ($fixer, $allIssues, &$allFixedIssues) {
                     $result = $fixer->fix($allIssues);
-                    
+
                     if ($result['success']) {
                         $allFixedIssues = array_merge($allFixedIssues, $result['fixed']);
-                        
+
                         return true;
                     }
-                    
+
                     return false;
                 });
             }
@@ -128,7 +128,7 @@ class SystemHealthCheck extends Command
 
         // Handle output based on format
         $outputFormat = $this->option('output');
-        
+
         if ($outputFormat === 'json') {
             // JSON output format
             $output = [
@@ -140,7 +140,7 @@ class SystemHealthCheck extends Command
                 'issues' => $allIssues,
                 'fixed' => $allFixedIssues,
             ];
-            
+
             $this->line(json_encode($output, JSON_PRETTY_PRINT));
         } else {
             // CLI output format (default)
@@ -153,7 +153,7 @@ class SystemHealthCheck extends Command
                     $this->line(" - {$issue}");
                 }
 
-                if (!empty($allFixedIssues)) {
+                if (! empty($allFixedIssues)) {
                     $this->newLine();
                     $this->components->info('The following issues were fixed:');
 
@@ -171,7 +171,7 @@ class SystemHealthCheck extends Command
             }
         }
 
-        return empty($allIssues) || !empty($allFixedIssues) ? 0 : 1;
+        return empty($allIssues) || ! empty($allFixedIssues) ? 0 : 1;
     }
 
     /**
@@ -183,36 +183,36 @@ class SystemHealthCheck extends Command
     {
         // Initialize all available checkers
         $allCheckers = [
-            'database' => new DatabaseHealthChecker(),
-            'search' => new SearchHealthChecker(),
-            'environment' => new EnvironmentHealthChecker(),
-            'disk' => new DiskSpaceHealthChecker(),
-            'api' => new ApiHealthChecker(),
-            'performance' => new PerformanceHealthChecker(),
-            'configuration' => new ConfigurationHealthChecker(),
+            'database' => new DatabaseHealthChecker,
+            'search' => new SearchHealthChecker,
+            'environment' => new EnvironmentHealthChecker,
+            'disk' => new DiskSpaceHealthChecker,
+            'api' => new ApiHealthChecker,
+            'performance' => new PerformanceHealthChecker,
+            'configuration' => new ConfigurationHealthChecker,
         ];
-        
+
         // Filter checkers based on options
         $category = $this->option('category');
         $exclude = $this->option('exclude');
         $excludeCategories = $exclude ? explode(',', $exclude) : [];
-        
+
         if ($category) {
             // Only include the specified category
             $this->checkers = array_filter($allCheckers, function ($key) use ($category) {
                 return $key === $category;
             }, ARRAY_FILTER_USE_KEY);
-            
+
             if (empty($this->checkers)) {
-                $this->warn("Category '{$category}' not found. Available categories: " . implode(', ', array_keys($allCheckers)));
+                $this->warn("Category '{$category}' not found. Available categories: ".implode(', ', array_keys($allCheckers)));
             }
         } else {
             // Include all categories except excluded ones
             $this->checkers = array_filter($allCheckers, function ($key) use ($excludeCategories) {
-                return !in_array($key, $excludeCategories);
+                return ! in_array($key, $excludeCategories);
             }, ARRAY_FILTER_USE_KEY);
         }
-        
+
         // Initialize fixers
         $this->fixers = [
             new DatabaseHealthFixer($this),

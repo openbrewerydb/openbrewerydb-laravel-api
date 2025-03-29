@@ -18,7 +18,7 @@ class ApiHealthChecker implements HealthCheckerInterface
     /**
      * Run the health check.
      *
-     * @param bool $detailed Whether to show detailed information
+     * @param  bool  $detailed  Whether to show detailed information
      * @return array Array with success status and any issues found
      */
     public function check(bool $detailed = false): array
@@ -29,7 +29,8 @@ class ApiHealthChecker implements HealthCheckerInterface
         // Get the application URL
         $appUrl = config('app.url');
         if (empty($appUrl)) {
-            $issues[] = "Application URL is not configured";
+            $issues[] = 'Application URL is not configured';
+
             return [
                 'success' => false,
                 'issues' => $issues,
@@ -46,7 +47,7 @@ class ApiHealthChecker implements HealthCheckerInterface
 
         foreach ($endpoints as $endpoint => $method) {
             try {
-                $url = rtrim($appUrl, '/') . $endpoint;
+                $url = rtrim($appUrl, '/').$endpoint;
                 $startTime = microtime(true);
 
                 $response = Http::timeout(5)->withHeaders([
@@ -56,7 +57,7 @@ class ApiHealthChecker implements HealthCheckerInterface
                 $endTime = microtime(true);
                 $responseTime = round(($endTime - $startTime) * 1000); // in milliseconds
 
-                if (!$response->successful()) {
+                if (! $response->successful()) {
                     $issues[] = "Endpoint {$endpoint} returned status code {$response->status()}";
                 }
 
@@ -71,14 +72,14 @@ class ApiHealthChecker implements HealthCheckerInterface
                     $body = $response->json();
                     if (is_array($body)) {
                         if (isset($body['data']) && is_array($body['data'])) {
-                            $details[] = "  Response: " . count($body['data']) . " items returned";
+                            $details[] = '  Response: '.count($body['data']).' items returned';
                         } else {
-                            $details[] = "  Response: Valid JSON returned";
+                            $details[] = '  Response: Valid JSON returned';
                         }
                     }
                 }
             } catch (\Exception $e) {
-                $issues[] = "Error checking endpoint {$endpoint}: " . $e->getMessage();
+                $issues[] = "Error checking endpoint {$endpoint}: ".$e->getMessage();
             }
         }
 
@@ -94,7 +95,7 @@ class ApiHealthChecker implements HealthCheckerInterface
                 ];
             })->values();
 
-            $details[] = "Available API Routes: " . $apiRoutes->count();
+            $details[] = 'Available API Routes: '.$apiRoutes->count();
 
             foreach ($apiRoutes as $route) {
                 $details[] = "  [{$route['methods']}] {$route['uri']}";
@@ -110,8 +111,6 @@ class ApiHealthChecker implements HealthCheckerInterface
 
     /**
      * Get the name of the health check.
-     *
-     * @return string
      */
     public function getName(): string
     {
