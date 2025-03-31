@@ -65,7 +65,7 @@ class GetBreweriesMeta extends Controller
         return response()->json(
             data: $data,
             status: Response::HTTP_OK,
-            headers: ['Cache-Control' => 'no-cache'],
+            headers: ['Cache-Control' => 'public; max-age=300; etag'],
         );
     }
 }
