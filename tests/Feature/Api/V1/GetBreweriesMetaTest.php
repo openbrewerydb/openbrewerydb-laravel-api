@@ -165,3 +165,84 @@ test('returns validation error when an invalid brewery type is provided', functi
     $response->assertStatus(422)
         ->assertJsonValidationErrors(['by_type']);
 });
+
+test('filters meta data by country', function () {
+    createBreweries(3, [
+        'country' => 'United States',
+        'state_province' => 'California',
+    ]);
+    createBreweries(2, [
+        'country' => 'Canada',
+        'state_province' => 'British Columbia',
+    ]);
+
+    $response = $this->getJson('/v1/breweries/meta?by_country=Canada');
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('total', 2)
+        ->assertJsonPath('by_state.British Columbia', 2)
+        ->assertJsonMissingPath('by_state.California');
+});
+
+test('filters meta data by postal code', function () {
+    createBreweries(3, [
+        'postal_code' => '94107',
+        'state_province' => 'California',
+        'brewery_type' => BreweryType::Micro,
+    ]);
+    createBreweries(2, [
+        'postal_code' => '97214',
+        'state_province' => 'Oregon',
+        'brewery_type' => BreweryType::Brewpub,
+    ]);
+
+    $response = $this->getJson('/v1/breweries/meta?by_postal=94107');
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('total', 3)
+        ->assertJsonPath('by_state.California', 3)
+        ->assertJsonPath('by_type.micro', 3)
+        ->assertJsonMissingPath('by_state.Oregon')
+        ->assertJsonMissingPath('by_type.brewpub');
+});
+
+test('filters meta data by specific brewery IDs', function () {
+    $breweries1 = createBreweries(2, [
+        'state_province' => 'California',
+        'brewery_type' => BreweryType::Micro,
+    ]);
+    $breweries2 = createBreweries(3, [
+        'state_province' => 'Oregon',
+        'brewery_type' => BreweryType::Brewpub,
+    ]);
+    
+    // Get IDs from the first set of breweries
+    $ids = $breweries1->pluck('id')->join(',');
+    
+    $response = $this->getJson("/v1/breweries/meta?by_ids={$ids}");
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('total', 2)
+        ->assertJsonPath('by_state.California', 2)
+        ->assertJsonPath('by_type.micro', 2)
+        ->assertJsonMissingPath('by_state.Oregon')
+        ->assertJsonMissingPath('by_type.brewpub');
+});
+
+test('filters meta data by excluding specific brewery types', function () {
+    createBreweries(3, ['brewery_type' => BreweryType::Micro]);
+    createBreweries(2, ['brewery_type' => BreweryType::Brewpub]);
+    createBreweries(4, ['brewery_type' => BreweryType::Regional]);
+
+    $response = $this->getJson('/v1/breweries/meta?exclude_types=micro,brewpub');
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('total', 4)
+        ->assertJsonPath('by_type.regional', 4)
+        ->assertJsonMissingPath('by_type.micro')
+        ->assertJsonMissingPath('by_type.brewpub');
+});
