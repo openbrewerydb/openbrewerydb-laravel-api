@@ -42,9 +42,6 @@ class ListBreweries extends Controller
         return response()->json(
             BreweryResource::collection($breweries),
             Response::HTTP_OK,
-            [
-                'Cache-Control' => 'max-age=300, public',
-            ]
         );
     }
 }
