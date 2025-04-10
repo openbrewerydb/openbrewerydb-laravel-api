@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
+use App\Rules\BrewerySort as BrewerySortRule;
 use App\Rules\BreweryType as BreweryTypeRule;
 use App\Rules\Coordinates as CoordinatesRule;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ListBreweries extends Controller
         $request->validate([
             'per_page' => ['sometimes', 'required', 'integer', 'min:1', 'max:200'],
             'page' => ['integer', 'min:1'],
-            'sort' => ['string'],
+            'sort' => ['string', new BrewerySortRule],
 
             // filters
             'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
