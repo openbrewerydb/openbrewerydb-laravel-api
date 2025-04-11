@@ -217,10 +217,10 @@ test('filters meta data by specific brewery IDs', function () {
         'state_province' => 'Oregon',
         'brewery_type' => BreweryType::Brewpub,
     ]);
-    
+
     // Get IDs from the first set of breweries
     $ids = $breweries1->pluck('id')->join(',');
-    
+
     $response = $this->getJson("/v1/breweries/meta?by_ids={$ids}");
 
     $this->assertJsonApiResponse($response)
