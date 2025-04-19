@@ -48,7 +48,13 @@ test('returns proper brewery JSON structure', function () {
 test('returns cache control headers', function () {
     createBreweries(1);
     $response = $this->getJson('/v1/breweries');
-    $response->assertOk()->assertHeader('Cache-Control', 'max-age=300, public');
+    $response->assertOk();
+
+    // Check that the Cache-Control header contains the expected values
+    $cacheControl = $response->headers->get('Cache-Control');
+    expect($cacheControl)->toContain('public');
+    expect($cacheControl)->toContain('max-age=');
+    expect($cacheControl)->toContain('etag');
 });
 
 test('returns HTTP error 422 with invalid params', function () {

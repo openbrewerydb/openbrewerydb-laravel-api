@@ -4,4 +4,4 @@
 mkdir -p coverage
 
 # Run Pest with coverage
-XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --coverage-html coverage/html --coverage-clover coverage/clover.xml
+XDEBUG_MODE=coverage ./vendor/bin/sail artisan test --coverage --coverage-html coverage/html --coverage-clover coverage/clover.xml

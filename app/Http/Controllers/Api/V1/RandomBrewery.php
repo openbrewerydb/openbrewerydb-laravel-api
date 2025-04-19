@@ -31,6 +31,7 @@ class RandomBrewery extends Controller
         return response()->json(
             data: BreweryResource::collection($breweries),
             status: Response::HTTP_OK,
+            // No caching for random events
         );
     }
 }
