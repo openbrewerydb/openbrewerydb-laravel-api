@@ -28,7 +28,7 @@ class SearchBreweries extends Controller
         return response()->json(
             data: BreweryResource::collection($breweries),
             status: Response::HTTP_OK,
-            headers: ['Cache-Control' => 'public; max-age=300; etag'],
+            headers: ['Cache-Control' => 'public, max-age=300, etag'],
         );
     }
 }
