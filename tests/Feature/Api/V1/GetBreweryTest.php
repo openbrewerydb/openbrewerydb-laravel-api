@@ -91,3 +91,17 @@ test('invalid brewery id format returns 404', function () {
     $response = $this->getJson('/v1/breweries/invalid-id');
     $response->assertNotFound();
 });
+
+test('brewery endpoint returns cache control headers', function () {
+    $brewery = createBrewery();
+    
+    $response = $this->getJson("/v1/breweries/{$brewery->id}");
+    
+    $response->assertOk();
+    
+    // Check that the Cache-Control header contains the expected values
+    $cacheControl = $response->headers->get('Cache-Control');
+    expect($cacheControl)->toContain('public');
+    expect($cacheControl)->toContain('max-age=');
+    expect($cacheControl)->toContain('etag');
+});

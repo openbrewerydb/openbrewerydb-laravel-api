@@ -99,3 +99,20 @@ test('random brewery returns complete brewery resource', function () {
             'street',
         ]]);
 });
+
+test('random endpoint does not have cache control headers', function () {
+    createBreweries(3);
+    
+    $response = $this->getJson('/v1/breweries/random');
+    
+    $response->assertOk();
+    
+    // Check that the Cache-Control header doesn't contain caching directives
+    $cacheControl = $response->headers->get('Cache-Control');
+    
+    // If Cache-Control header exists, it shouldn't contain public or max-age directives
+    if ($cacheControl) {
+        expect($cacheControl)->not->toContain('public; max-age=');
+        expect($cacheControl)->not->toContain('etag');
+    }
+});

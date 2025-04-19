@@ -22,8 +22,9 @@ class ListBreweries extends Controller
             ->paginate(perPage: $request->integer('per_page', 50));
 
         return response()->json(
-            BreweryResource::collection($breweries),
-            Response::HTTP_OK,
+            data: BreweryResource::collection($breweries),
+            status: Response::HTTP_OK,
+            headers: ['Cache-Control' => 'public; max-age=300; etag'],
         );
     }
 }
