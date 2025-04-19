@@ -7,14 +7,16 @@ beforeEach(function () {
     Cache::flush();
 });
 
-test('returns total breweries', function () {
+test('returns total breweries with default pagination values', function () {
     createBreweries(5);
 
     $response = $this->getJson('/v1/breweries/meta');
 
     $this->assertJsonApiResponse($response)
         ->assertOk()
-        ->assertJsonPath('total', 5);
+        ->assertJsonPath('total', 5)
+        ->assertJsonPath('page', 1)
+        ->assertJsonPath('per_page', 50);
 });
 
 test('returns total breweries by state', function () {
@@ -245,4 +247,24 @@ test('filters meta data by excluding specific brewery types', function () {
         ->assertJsonPath('by_type.regional', 4)
         ->assertJsonMissingPath('by_type.micro')
         ->assertJsonMissingPath('by_type.brewpub');
+});
+
+test('returns custom page and per_page values when provided', function () {
+    createBreweries(20);
+
+    $response = $this->getJson('/v1/breweries/meta?page=2&per_page=10');
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('page', 2)
+        ->assertJsonPath('per_page', 10);
+});
+
+test('validates page and per_page parameters', function () {
+    createBreweries(5);
+
+    $response = $this->getJson('/v1/breweries/meta?page=0&per_page=0');
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['page', 'per_page']);
 });

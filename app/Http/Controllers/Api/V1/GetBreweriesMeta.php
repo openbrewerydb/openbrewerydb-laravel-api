@@ -19,6 +19,8 @@ class GetBreweriesMeta extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
+            'per_page' => ['sometimes', 'required', 'integer', 'min:1', 'max:200'],
+            'page' => ['sometimes', 'required', 'integer', 'min:1'],
             // filters
             'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_country' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
@@ -56,10 +58,15 @@ class GetBreweriesMeta extends Controller
             })
             ->toArray();
 
+        $page = $request->integer('page', 1);
+        $perPage = $request->integer('per_page', 50);
+
         $data = new BreweryMetaResource([
             'total' => $total,
             'by_state' => $byState,
             'by_type' => $byType,
+            'page' => $page,
+            'per_page' => $perPage,
         ]);
 
         return response()->json(
