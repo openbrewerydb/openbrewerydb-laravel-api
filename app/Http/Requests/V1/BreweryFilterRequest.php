@@ -27,7 +27,7 @@ class BreweryFilterRequest extends FormRequest
             'per_page' => ['sometimes', 'required', 'integer', 'min:1', 'max:200'],
             'page' => ['sometimes', 'required', 'integer', 'min:1'],
             'sort' => ['sometimes', 'required', 'string'],
-            
+
             // filters
             'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_country' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
