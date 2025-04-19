@@ -143,11 +143,11 @@ test('search is case insensitive', function () {
 
 test('search endpoint returns cache control headers', function () {
     createBrewery(['name' => 'Test Brewery']);
-    
+
     $response = $this->getJson('/v1/breweries/search?query=Test');
-    
+
     $response->assertOk();
-    
+
     // Check that the Cache-Control header contains the expected values
     $cacheControl = $response->headers->get('Cache-Control');
     expect($cacheControl)->toContain('public');

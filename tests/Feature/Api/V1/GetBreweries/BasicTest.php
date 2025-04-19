@@ -49,7 +49,7 @@ test('returns cache control headers', function () {
     createBreweries(1);
     $response = $this->getJson('/v1/breweries');
     $response->assertOk();
-    
+
     // Check that the Cache-Control header contains the expected values
     $cacheControl = $response->headers->get('Cache-Control');
     expect($cacheControl)->toContain('public');

@@ -271,11 +271,11 @@ test('validates page and per_page parameters', function () {
 
 test('meta endpoint returns cache control headers', function () {
     createBreweries(3);
-    
+
     $response = $this->getJson('/v1/breweries/meta');
-    
+
     $response->assertOk();
-    
+
     // Check that the Cache-Control header contains the expected values
     $cacheControl = $response->headers->get('Cache-Control');
     expect($cacheControl)->toContain('public');
