@@ -17,14 +17,15 @@ class GetBrewery extends Controller
      */
     public function __invoke(Request $request, string $id): JsonResponse
     {
-        $brewery = Cache::remember('brewery_'.$id, 300, function () use ($id) {
+        $brewery = Cache::remember('brewery_'.$id, config('platform.cache_control_max_age'), function () use ($id) {
             return new BreweryResource(Brewery::findOrFail($id));
         });
 
-        return response()->json(
-            data: $brewery,
-            status: Response::HTTP_OK,
-            headers: ['Cache-Control' => 'public, max-age=300, etag'],
-        );
+        return response()
+            ->json(
+                data: $brewery,
+                status: Response::HTTP_OK,
+                headers: ['Cache-Control' => 'public, max-age='.config('platform.cache_control_max_age')],
+            );
     }
 }
