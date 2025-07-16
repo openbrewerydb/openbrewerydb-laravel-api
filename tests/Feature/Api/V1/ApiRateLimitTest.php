@@ -118,7 +118,7 @@ test('rate limit applies to search endpoint', function () {
 test('rate limit applies to filtered brewery requests', function () {
     Brewery::factory()->count(5)->create([
         'state_province' => 'California',
-        'brewery_type' => 'micro'
+        'brewery_type' => 'micro',
     ]);
 
     $rateLimit = config('platform.api_rate_limit', 120);
