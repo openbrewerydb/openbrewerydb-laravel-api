@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\V1\RandomBrewery;
 use App\Http\Controllers\Api\V1\SearchBreweries;
 use Illuminate\Support\Facades\Route;
 
-Route::name('v1.')->prefix('v1')->group(function () {
+Route::middleware('throttle:api')->name('v1.')->prefix('v1')->group(function () {
     Route::get('/breweries', ListBreweries::class)->name('breweries.index');
     Route::get('/breweries/autocomplete', AutocompleteBreweries::class)->name('breweries.autocomplete');
     Route::get('/breweries/meta', GetBreweriesMeta::class)->name('breweries.meta');
