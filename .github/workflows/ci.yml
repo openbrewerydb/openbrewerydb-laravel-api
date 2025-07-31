@@ -24,6 +24,14 @@ jobs:
   test-app:
     needs: lint-app
     runs-on: ubuntu-24.04
+    services:
+      meilisearch:
+        image: getmeili/meilisearch:v1.10
+        ports:
+          - 7700:7700
+        env:
+          MEILI_MASTER_KEY: masterKey
+          MEILI_NO_ANALYTICS: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -43,6 +51,12 @@ jobs:
 
       - name: Copy Environment File
         run: cp .env.example .env
+
+      - name: Configure Meilisearch Environment
+        run: |
+          sed -i 's/^SCOUT_DRIVER=.*/SCOUT_DRIVER=meilisearch/' .env || echo "SCOUT_DRIVER=meilisearch" >> .env
+          sed -i 's/^MEILISEARCH_HOST=.*/MEILISEARCH_HOST=http:\/\/localhost:7700/' .env || echo "MEILISEARCH_HOST=http://localhost:7700" >> .env
+          sed -i 's/^MEILISEARCH_KEY=.*/MEILISEARCH_KEY=masterKey/' .env || echo "MEILISEARCH_KEY=masterKey" >> .env
 
       - name: Generate App Key
         run: php artisan key:generate
