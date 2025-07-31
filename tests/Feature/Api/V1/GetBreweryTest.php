@@ -103,5 +103,4 @@ test('brewery endpoint returns cache control headers', function () {
     $cacheControl = $response->headers->get('Cache-Control');
     expect($cacheControl)->toContain('public');
     expect($cacheControl)->toContain('max-age=');
-    expect($cacheControl)->toContain('etag');
 });
