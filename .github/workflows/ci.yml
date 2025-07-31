@@ -50,19 +50,17 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy Environment File
-        run: cp .env.example .env
-
-      - name: Configure Meilisearch Environment
-        run: |
-          sed -i 's/^SCOUT_DRIVER=.*/SCOUT_DRIVER=meilisearch/' .env || echo "SCOUT_DRIVER=meilisearch" >> .env
-          sed -i 's/^MEILISEARCH_HOST=.*/MEILISEARCH_HOST=http:\/\/localhost:7700/' .env || echo "MEILISEARCH_HOST=http://localhost:7700" >> .env
-          sed -i 's/^MEILISEARCH_KEY=.*/MEILISEARCH_KEY=masterKey/' .env || echo "MEILISEARCH_KEY=masterKey" >> .env
+        run: cp .env.ci .env
 
       - name: Generate App Key
         run: php artisan key:generate
 
       - name: Run Tests
         run: php artisan test --parallel
+        env:
+          SCOUT_DRIVER: meilisearch
+          MEILISEARCH_HOST: 127.0.0.1:7700
+          MEILISEARCH_KEY: masterKey
 
   build-image:
     # needs: [lint-app, test-app]
