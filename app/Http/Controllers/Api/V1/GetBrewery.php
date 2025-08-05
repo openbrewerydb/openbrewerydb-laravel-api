@@ -8,7 +8,6 @@ use App\Models\Brewery;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
 
 class GetBrewery extends Controller
 {
@@ -17,9 +16,7 @@ class GetBrewery extends Controller
      */
     public function __invoke(Request $request, string $id): JsonResponse
     {
-        $brewery = Cache::remember('brewery_'.$id, config('platform.cache_control_max_age'), function () use ($id) {
-            return new BreweryResource(Brewery::findOrFail($id));
-        });
+        $brewery = new BreweryResource(Brewery::findOrFail($id));
 
         return response()
             ->json(
