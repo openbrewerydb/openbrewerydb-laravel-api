@@ -52,6 +52,13 @@ return [
 
     'channels' => [
 
+        'sentry_logs' => [
+            'driver' => 'sentry_logs',
+            // The minimum logging level at which this handler will be triggered
+            // Available levels: debug, info, notice, warning, error, critical, alert, emergency
+            'level' => env('LOG_LEVEL', 'info'), // defaults to `debug` if not set
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', env('LOG_STACK', 'single')),
