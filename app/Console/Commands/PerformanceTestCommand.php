@@ -24,8 +24,6 @@ class PerformanceTestCommand extends Command
 
     /**
      * The test scenarios to run.
-     *
-     * @var array
      */
     private array $scenarios = [
         'by_city' => 'san',
@@ -62,6 +60,7 @@ class PerformanceTestCommand extends Command
 
             if (empty($times)) {
                 $this->output->writeln(' <error>FAIL</error>');
+
                 continue;
             }
             $this->output->writeln(' <info>OK</info>');
@@ -99,6 +98,7 @@ class PerformanceTestCommand extends Command
 
             if (empty($times)) {
                 $this->output->writeln(' <error>FAIL</error>');
+
                 continue;
             }
             $this->output->writeln(' <info>OK</info>');
@@ -125,8 +125,8 @@ class PerformanceTestCommand extends Command
         $times = [];
 
         // IMPORTANT: This is the correct URL for the API endpoint
-        $baseUrl = config('app.url') . '/v1/breweries/meta';
-        $url = $baseUrl . '?' . $queryString;
+        $baseUrl = config('app.url').'/v1/breweries/meta';
+        $url = $baseUrl.'?'.$queryString;
 
         // Add debugging output for the URL
         if ($this->getOutput()->isVerbose()) {
@@ -137,7 +137,7 @@ class PerformanceTestCommand extends Command
             $startTime = microtime(true);
             try {
                 $response = Http::get($url);
-                if (!$response->successful()) {
+                if (! $response->successful()) {
                     Log::error('Perf Test Failed Response', ['url' => $url, 'status' => $response->status(), 'body' => $response->body()]);
 
                     return []; // Stop this test on first failure
