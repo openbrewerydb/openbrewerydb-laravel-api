@@ -28,6 +28,7 @@ class TuneSqliteForReads extends Command
     {
         if (config('database.default') !== 'sqlite') {
             $this->error('This command is only available for SQLite databases.');
+
             return 1;
         }
 
@@ -55,21 +56,21 @@ class TuneSqliteForReads extends Command
             // Verify the settings
             $this->newLine();
             $this->info('Current SQLite configuration:');
-            
+
             $journalMode = DB::selectOne('PRAGMA journal_mode');
             $this->line("Journal mode: {$journalMode->journal_mode}");
-            
+
             $cacheSize = DB::selectOne('PRAGMA cache_size');
             $this->line("Cache size: {$cacheSize->cache_size} pages");
-            
+
             $synchronous = DB::selectOne('PRAGMA synchronous');
             $this->line("Synchronous: {$synchronous->synchronous}");
-            
+
             $tempStore = DB::selectOne('PRAGMA temp_store');
             $this->line("Temp store: {$tempStore->temp_store}");
-            
+
             $mmapSize = DB::selectOne('PRAGMA mmap_size');
-            $this->line("Memory-mapped size: " . number_format($mmapSize->mmap_size / 1024 / 1024, 1) . "MB");
+            $this->line('Memory-mapped size: '.number_format($mmapSize->mmap_size / 1024 / 1024, 1).'MB');
 
             $this->newLine();
             $this->info('SQLite database has been successfully tuned for read performance!');
@@ -82,7 +83,8 @@ class TuneSqliteForReads extends Command
             $this->comment('DB_MMAP_SIZE=268435456');
 
         } catch (\Exception $e) {
-            $this->error('Failed to tune SQLite database: ' . $e->getMessage());
+            $this->error('Failed to tune SQLite database: '.$e->getMessage());
+
             return 1;
         }
 
