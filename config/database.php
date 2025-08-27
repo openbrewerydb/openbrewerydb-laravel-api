@@ -38,8 +38,11 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
-            'journal_mode' => null,
-            'synchronous' => null,
+            'journal_mode' => env('DB_JOURNAL_MODE', 'WAL'),
+            'synchronous' => env('DB_SYNCHRONOUS', 'NORMAL'),
+            'cache_size' => env('DB_CACHE_SIZE', 10000),
+            'temp_store' => env('DB_TEMP_STORE', 'MEMORY'),
+            'mmap_size' => env('DB_MMAP_SIZE', 268435456), // 256MB
         ],
 
         'mysql' => [
