@@ -39,6 +39,8 @@ class Install extends Command
 
         $this->ensureDatabaseExists();
 
+        $this->configureDatabase();
+
         $this->copyEnvExample();
 
         $this->createAppKey();
@@ -54,6 +56,15 @@ class Install extends Command
     protected function ensureDatabaseExists(): void
     {
         file_exists(database_path('database.sqlite')) || touch(database_path('database.sqlite'));
+    }
+
+    protected function configureDatabase(): void
+    {
+        try {
+            $this->call('db:tune-sqlite-reads');
+        } catch (\Throwable $th) {
+            $this->fail('❌ There was an issue tuning SQLite reads, check the logs.');
+        }
     }
 
     /**
