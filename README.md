@@ -20,7 +20,8 @@ You only need to run "First Time Setup", the first time. After that you can use 
 
 - Start the development environment `./vendor/bin/sail up -d`
 - Stop the development environment `./vendor/bin/sail down`
-- Refresh the database structure `./vendor/bin/sail migrate:fresh --force`
+- Refresh the database structure `./vendor/bin/sail artisan migrate:fresh --force`
+- Updating Dependencies `./vendor/bin/sail composer update`
 
 ### 👇 Importing Data
 
