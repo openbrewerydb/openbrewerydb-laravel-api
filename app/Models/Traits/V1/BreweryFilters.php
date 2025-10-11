@@ -68,8 +68,10 @@ trait BreweryFilters
         return $query
             ->when($request->has('by_dist'), function (Builder $query) use ($request) {
                 [$latitude, $longitude] = array_map('trim', explode(',', $request->input('by_dist')));
+                $radius = $request->input('by_dist_radius');
+                $unit = $request->input('by_dist_unit', 'mi');
 
-                $query->orderByDistance($latitude, $longitude);
+                $query->orderByDistance($latitude, $longitude, $radius, $unit);
             })
             ->when($request->has('sort'), function (Builder $query) use ($request) {
                 $values = explode(',', $request->input('sort'));
