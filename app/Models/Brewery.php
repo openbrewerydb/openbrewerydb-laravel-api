@@ -39,22 +39,52 @@ class Brewery extends Model
      */
     public function scopeOrderByDistance(Builder $query, float $latitude, float $longitude, ?float $radius = null, string $unit = 'mi'): Builder
     {  
+        \Log::info("Ordering by distance from [{$latitude}, {$longitude}] within radius {$radius} {$unit}");
+
         $earthRadius = $unit === 'km' ? 6371 : 3959;
 
-        $haversine = "({$earthRadius} * acos(cos(radians($latitude))
+        $haversine = "({$earthRadius} * acos(cos(radians({$latitude}))
                         * cos(radians(latitude))
                         * cos(radians(longitude)
-                        - radians($longitude))
-                        + sin(radians($latitude))
+                        - radians({$longitude}))
+                        + sin(radians({$latitude}))
                         * sin(radians(latitude))))";
+
+        \Log::info("Haversine formula: {$haversine}");
 
         $query = $query->select('*')
             ->selectRaw("{$haversine} AS distance")
             ->whereNotNull('latitude')
             ->whereNotNull('longitude');
 
-        $query->whereRaw("{$haversine} <= ?", $radius);
+        
 
-        return $query->orderBy('distance');
+        if ($radius !== null) {
+            $query->whereRaw("{$haversine} <= {$radius}");
+             \Log::info("SQL Query: ", [
+                'sql' => $query->toSql(),
+                'bindings' => $query->getBindings(),
+                'radius' => $radius,
+                'full_condition' => "{$haversine} <= {$radius}"
+            ]);
+        }
+
+        $query = $query->orderBy('distance');
+
+        $log_results = (clone $query)->get();
+        \Log::info("Distance Results: ", [
+            'count' => (clone $query)->count(),
+            'log_distances' => $log_results->map(fn($b) => [
+                'name' => $b->name, 
+                'latitude' => $b->latitude, 
+                'longitude' => $b->longitude,
+                'distance' => $b->distance
+            ])    
+        ]);
+
+        return $query;
+        
+       
     }
+        
 }
