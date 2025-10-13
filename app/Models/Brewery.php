@@ -38,7 +38,7 @@ class Brewery extends Model
      * Scope results by distance from given coordinates. Use "6371" for kilometers or "3959" for miles.
      */
     public function scopeOrderByDistance(Builder $query, float $latitude, float $longitude, ?float $radius = null, string $unit = 'mi'): Builder
-    {  
+    {
         \Log::debug("Ordering by distance from [{$latitude}, {$longitude}] within radius {$radius} {$unit}");
 
         $earthRadius = $unit === 'km' ? 6371 : 3959;
@@ -59,28 +59,27 @@ class Brewery extends Model
 
         if ($radius !== null) {
             $query->whereRaw("{$haversine} <= {$radius}");
-             \Log::debug("SQL Query: ", [
+            \Log::debug('SQL Query: ', [
                 'sql' => $query->toSql(),
                 'bindings' => $query->getBindings(),
                 'radius' => $radius,
-                'full_condition' => "{$haversine} <= {$radius}"
+                'full_condition' => "{$haversine} <= {$radius}",
             ]);
         }
 
         $query = $query->orderBy('distance');
 
         $log_results = (clone $query)->get();
-        \Log::debug("Distance Results: ", [
+        \Log::debug('Distance Results: ', [
             'count' => (clone $query)->count(),
-            'log_distances' => $log_results->map(fn($b) => [
-                'name' => $b->name, 
-                'latitude' => $b->latitude, 
+            'log_distances' => $log_results->map(fn ($b) => [
+                'name' => $b->name,
+                'latitude' => $b->latitude,
                 'longitude' => $b->longitude,
-                'distance' => $b->distance
-            ])    
+                'distance' => $b->distance,
+            ]),
         ]);
 
         return $query;
     }
-        
 }
