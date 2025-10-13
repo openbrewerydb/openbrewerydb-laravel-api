@@ -81,8 +81,6 @@ class Brewery extends Model
         ]);
 
         return $query;
-        
-       
     }
         
 }
