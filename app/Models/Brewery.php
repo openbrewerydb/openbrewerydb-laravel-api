@@ -57,8 +57,6 @@ class Brewery extends Model
             ->whereNotNull('latitude')
             ->whereNotNull('longitude');
 
-        
-
         if ($radius !== null) {
             $query->whereRaw("{$haversine} <= {$radius}");
              \Log::debug("SQL Query: ", [
