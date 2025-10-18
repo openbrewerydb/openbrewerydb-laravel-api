@@ -3,7 +3,7 @@
 [![Tests](https://github.com/alexjustesen/obdb-api/actions/workflows/ci.yml/badge.svg)](https://github.com/alexjustesen/obdb-api/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is the official Laravel-powered backend for the Open Brewery DB API. It's designed to be fast, easy to use, and simple to contribute to.
+This is the official Laravel-powered backend for the Open Brewery DB API.
 
 ### Table of Contents
 
@@ -27,7 +27,7 @@ This is the official Laravel-powered backend for the Open Brewery DB API. It's d
 
 ### API Documentation
 
-API specs can be found in the [wiki](https://github.com/alexjustesen/obdb-api/wiki/API) for now. More formal documentation, like Swagger/OpenAPI, is planned for the future.
+API specs can be found in the [documentation](https://www.openbrewerydb.org/documentation) for now. More formal documentation, like Swagger/OpenAPI, is planned for the future.
 
 ### 🏃‍♂️ Developing
 
@@ -37,8 +37,8 @@ Open Brewery DB API utilizes [Laravel Sail](https://laravel.com/docs/11.x/sail) 
 
 This will build the Docker container, install all dependencies, and set up your local environment.
 
-1.  Clone the repository: `gh repo clone alexjustesen/obdb-api`
-2.  Navigate into the project directory: `cd obdb-api`
+1.  Clone the repository: `git clone https://github.com/openbrewerydb/openbrewerydb-laravel-api.git`
+2.  Navigate into the project directory: `cd openbrewerydb-laravel-api`
 3.  Run the install script: `./install.sh`
 
 #### 🔄️ Continuing Development
