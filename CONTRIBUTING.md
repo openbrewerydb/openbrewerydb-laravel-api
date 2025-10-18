@@ -14,8 +14,8 @@ First off, thank you for considering contributing! We love our community and wel
 The project is built with Laravel and runs in a Docker environment managed by Laravel Sail. The only prerequisite is [Docker](https://www.docker.com/).
 
 1.  **Fork the repository** on GitHub.
-2.  **Clone your fork** locally: `git clone https://github.com/your-username/obdb-api.git`
-3.  **Navigate to the project directory**: `cd obdb-api`
+2.  **Clone your fork** locally: `git clone https://github.com/openbrewerydb/openbrewerydb-laravel-api.git`
+3.  **Navigate to the project directory**: `cd openbrewerydb-laravel-api`
 4.  **Run the installation script**: `./install.sh`. This will build the Docker containers, install Composer dependencies, and set up your `.env` file.
 5.  **Create a new branch** for your feature or bug fix: `git checkout -b your-feature-name`
 6.  **Import the data**:
