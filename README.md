@@ -1,32 +1,77 @@
-## 🍻 Open Brewery DB API
+# 🍻 Open Brewery DB API
 
-This is a WIP/POC to move the API over to a Laravel backend.
+[![Tests](https://github.com/alexjustesen/obdb-api/actions/workflows/ci.yml/badge.svg)](https://github.com/alexjustesen/obdb-api/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This is the official Laravel-powered backend for the Open Brewery DB API.
+
+### Table of Contents
+
+-   [Features](#features)
+-   [API Documentation](#api-documentation)
+-   [Development Setup](#-developing)
+-   [Running Tests](#-running-tests)
+-   [Code Style](#-code-style)
+-   [Contributing](#-contributing)
+-   [License](#-license)
+
+### Features
+
+-   **RESTful API**: A clean, modern API for accessing brewery data.
+-   **Powerful Search**: Full-text search powered by Meilisearch.
+-   **Extensive Filtering**: Filter breweries by city, state, country, postal code, type, name, and distance.
+-   **Flexible Sorting**: Sort results by multiple fields in ascending or descending order.
+-   **Pagination**: Simple and predictable pagination for all list endpoints.
+-   **Metadata Endpoint**: Get total counts of breweries aggregated by state and type.
+-   **Random Brewery**: Fetch a random brewery, perfect for discovery.
+
+### API Documentation
+
+API specs can be found in the [documentation](https://www.openbrewerydb.org/documentation) for now. More formal documentation, like Swagger/OpenAPI, is planned for the future.
 
 ### 🏃‍♂️ Developing
 
-Open Brewery DB API utilizes [Laravel Sail](https://laravel.com/docs/11.x/sail) to create a Docker development environment. As a result [Docker](https://www.docker.com/) is the only requirement to get started.
+Open Brewery DB API utilizes [Laravel Sail](https://laravel.com/docs/11.x/sail) to create a Docker development environment. As a result, [Docker](https://www.docker.com/) is the only prerequisite to get started.
 
-### 🥇 First Time Setup
+#### 🥇 First Time Setup
 
-To get started developing follow the steps below after you've installed Docker, this will ensure a container is built and the necessary dependencies are installed.
+This will build the Docker container, install all dependencies, and set up your local environment.
 
-1. Clone the repository `gh repo clone alexjustesen/obdb-api`
-2. CD into the project `cd obdb-api`
-3. Run the install script `./install.sh`
+1.  Clone the repository: `git clone https://github.com/openbrewerydb/openbrewerydb-laravel-api.git`
+2.  Navigate into the project directory: `cd openbrewerydb-laravel-api`
+3.  Run the install script: `./install.sh`
 
-### 🔄️ Continuing developing
+#### 🔄️ Continuing Development
 
-You only need to run "First Time Setup", the first time. After that you can use the core commands below.
+After the first-time setup, you can manage the development environment with these commands:
 
-- Start the development environment `./vendor/bin/sail up -d`
-- Stop the development environment `./vendor/bin/sail down`
-- Refresh the database structure `./vendor/bin/sail migrate:fresh --force`
+-   **Start the environment**: `./vendor/bin/sail up -d`
+-   **Stop the environment**: `./vendor/bin/sail down`
 
-### 👇 Importing Data
+#### 👇 Importing Data
 
-1. To import latest brewery data run `./vendor/bin/sail artisan app:import-breweries`
-2. To refresh the search index run `./vendor/bin/sail artisan app:refresh-search-indexes`
+The database needs to be populated with brewery data from the official dataset.
 
-### 📞 API Docs
+1.  To import the latest brewery data, run: `./vendor/bin/sail artisan app:import-breweries`
+2.  To refresh the search index after importing, run: `./vendor/bin/sail artisan app:refresh-search-indexes`
 
-Still working on 100% coverage but API specs can be found in the [wiki](https://github.com/alexjustesen/obdb-api/wiki/API) for now, Swagger docs are planned.
+### 🧪 Running Tests
+
+The application has a comprehensive test suite built with Pest.
+
+-   To run all tests, use: `./vendor/bin/sail artisan test`
+-   To run tests with code coverage, use the provided script: `./run-tests-with-coverage.sh` (The report will be generated in the `coverage/` directory).
+
+### ✨ Code Style
+
+This project uses [Laravel Pint](https://laravel.com/docs/11.x/pint) to enforce a consistent code style.
+
+-   To automatically format your code, run: `./vendor/bin/sail pint`
+
+### 🤝 Contributing
+
+We welcome contributions! Please see the [**CONTRIBUTING.md**](CONTRIBUTING.md) file for guidelines on how to get started.
+
+### 📜 License
+
+This project is open-sourced software licensed under the [MIT license](LICENSE).
