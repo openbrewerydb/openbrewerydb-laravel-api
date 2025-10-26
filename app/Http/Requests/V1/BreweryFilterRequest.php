@@ -32,6 +32,8 @@ class BreweryFilterRequest extends FormRequest
             'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_country' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_dist' => ['sometimes', 'required', 'string', new CoordinatesRule],
+            'by_dist_radius' => ['sometimes', 'required', 'numeric', 'min:0.1', 'max:10000'],
+            'by_dist_unit' => ['sometimes', 'required', 'string', 'in:km,mi'],
             'by_ids' => ['sometimes', 'required', 'string', 'min:3', 'max:255'], // TODO: validate as array of uuid v4
             'by_name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'by_postal' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],

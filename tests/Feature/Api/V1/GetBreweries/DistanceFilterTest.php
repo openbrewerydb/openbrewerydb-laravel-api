@@ -72,6 +72,130 @@ test('distance filter accepts valid coordinate edge cases', function () {
     }
 });
 
+test('distance filter respects radius and unit', function () {
+    // Portland brewery
+    createBrewery([
+        'name' => 'Portland Brewing',
+        'latitude' => '45.5155',
+        'longitude' => '-122.6789',
+    ]);
+
+    // Seattle brewery
+    createBrewery([
+        'name' => 'Seattle Brewing',
+        'latitude' => '47.6062',
+        'longitude' => '-122.3321',
+    ]);
+
+    // Portland coordinates with 50 km radius
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=50&by_dist_unit=km');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(1)
+        ->and($breweries->first()['name'])->toBe('Portland Brewing');
+
+    // Portland coordinates with 300 km radius
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=300&by_dist_unit=km');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(2);
+});
+
+test('distance filter with different radius values', function () {
+    // Portland brewery
+    createBrewery([
+        'name' => 'Portland Brewing',
+        'latitude' => '45.5155',
+        'longitude' => '-122.6789',
+    ]);
+
+    // Seattle brewery
+    createBrewery([
+        'name' => 'Seattle Brewing',
+        'latitude' => '47.6062',
+        'longitude' => '-122.3321',
+    ]);
+
+    // Portland coordinates with 100 km radius
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=100&by_dist_unit=km');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(1)
+        ->and($breweries->first()['name'])->toBe('Portland Brewing');
+
+    // Portland coordinates with 300 km radius
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=300&by_dist_unit=km');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(2);
+});
+
+test('distance filter with miles unit', function () {
+    // Portland brewery
+    createBrewery([
+        'name' => 'Portland Brewing',
+        'latitude' => '45.5155',
+        'longitude' => '-122.6789',
+    ]);
+
+    // Seattle brewery
+    createBrewery([
+        'name' => 'Seattle Brewing',
+        'latitude' => '47.6062',
+        'longitude' => '-122.3321',
+    ]);
+
+    // Portland coordinates with 50 miles radius
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=50&by_dist_unit=mi');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(1)
+        ->and($breweries->first()['name'])->toBe('Portland Brewing');
+
+    // Portland coordinates with 200 miles radius
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=200&by_dist_unit=mi');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(2);
+});
+
+test('distance filter with radius and default unit', function () {
+    // Portland brewery
+    createBrewery([
+        'name' => 'Portland Brewing',
+        'latitude' => '45.5155',
+        'longitude' => '-122.6789',
+    ]);
+
+    // Seattle brewery
+    createBrewery([
+        'name' => 'Seattle Brewing',
+        'latitude' => '47.6062',
+        'longitude' => '-122.3321',
+    ]);
+
+    // Portland coordinates with 50 miles radius (default unit)
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=50');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(1)
+        ->and($breweries->first()['name'])->toBe('Portland Brewing');
+
+    // Portland coordinates with 200 miles radius (default unit)
+    $response = $this->getJson('/v1/breweries?by_dist=45.5155,-122.6789&by_dist_radius=200');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries)->toHaveCount(2);
+});
+
 test('distance filter works with other filters', function () {
     createBrewery([
         'name' => 'Portland Micro',
