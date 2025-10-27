@@ -7,6 +7,7 @@ enum BreweryType: string
     case Bar = 'bar';
     case Beergarden = 'beergarden';
     case Brewpub = 'brewpub';
+    case Cidery = 'cidery';
     case Closed = 'closed';
     case Contract = 'contract';
     case Large = 'large';
