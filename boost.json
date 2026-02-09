@@ -1,13 +1,14 @@
 {
     "agents": [
         "claude_code",
-        "copilot",
-        "cursor"
+        "cursor",
+        "opencode"
     ],
     "editors": [
         "claude_code",
         "cursor",
         "vscode"
     ],
-    "guidelines": []
+    "guidelines": [],
+    "sail": true
 }
