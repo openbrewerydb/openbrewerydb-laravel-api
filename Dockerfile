@@ -1,7 +1,7 @@
 ########################
 # Base Image
 ########################
-FROM serversideup/php:8.4-fpm-nginx-alpine-v3.5.2 AS base
+FROM serversideup/php:8.4-fpm-nginx-alpine-v4.3.1 AS base
 
 LABEL org.opencontainers.image.title="Open Brewery DB API" \
       org.opencontainers.image.description="Laravel implementation of the Open Brewery DB API" \
