@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class RandomBrewery extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Get a random brewery.
      */
     public function __invoke(Request $request, int $size = 1)
     {

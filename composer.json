@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.2",
         "http-interop/http-factory-guzzle": "^1.2.1",
+        "knuckleswtf/scribe": "^5.8",
         "laravel/framework": "^12.50.0",
         "laravel/scout": "^10.23.1",
         "meilisearch/meilisearch-php": "^1.16.1",

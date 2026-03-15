@@ -12,7 +12,7 @@ use Illuminate\Http\Response;
 class GetBrewery extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Get a single brewery.
      */
     public function __invoke(Request $request, string $id): JsonResponse
     {

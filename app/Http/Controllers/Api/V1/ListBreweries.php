@@ -11,7 +11,9 @@ use Illuminate\Http\Response;
 class ListBreweries extends Controller
 {
     /**
-     * Handle the incoming request.
+     * List breweries.
+     *
+     * Returns a paginated list of breweries based on optional filters and sorting.
      */
     public function __invoke(BreweryFilterRequest $request)
     {

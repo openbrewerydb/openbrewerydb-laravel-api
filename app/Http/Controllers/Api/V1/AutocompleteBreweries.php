@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Log;
 class AutocompleteBreweries extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Search for breweries based on a search term.
+     * The search performs partial, case-insensitive matching against brewery names.
+     *
+     * @deprecated Use the Search Breweries endpoint instead.
      */
     public function __invoke(Request $request)
     {
-        $query = $request->query('query');
 
         Log::info('Redirecting autocomplete to search', ['query' => $query]);
 

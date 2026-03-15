@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\DB;
 class GetBreweriesMeta extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Get metadata about the brewery
+     *
+     * Takes the same filters as List Breweries.
      */
     public function __invoke(BreweryFilterRequest $request)
     {
