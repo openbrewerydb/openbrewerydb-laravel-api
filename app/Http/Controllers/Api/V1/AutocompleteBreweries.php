@@ -16,6 +16,7 @@ class AutocompleteBreweries extends Controller
      */
     public function __invoke(Request $request)
     {
+        $query = $request->query('query');
 
         Log::info('Redirecting autocomplete to search', ['query' => $query]);
 
