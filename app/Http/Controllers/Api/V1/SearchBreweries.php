@@ -11,7 +11,9 @@ use Illuminate\Http\Response;
 class SearchBreweries extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Search for breweries.
+     *
+     * The search performs partial, case-insensitive matching against brewery names.
      */
     public function __invoke(Request $request)
     {

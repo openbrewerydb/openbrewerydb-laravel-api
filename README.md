@@ -27,7 +27,19 @@ This is the official Laravel-powered backend for the Open Brewery DB API.
 
 ### API Documentation
 
-API specs can be found in the [documentation](https://www.openbrewerydb.org/documentation) for now. More formal documentation, like Swagger/OpenAPI, is planned for the future.
+Interactive API spec, Postman collection, and Swagger/OpenAPI are 
+available at [https://api.openbrewerydb.org/docs](https://api.openbrewerydb.org/docs).
+
+Generated via [Scribe](https://scribe.knuckles.wtf/).
+
+#### Running locally
+
+Local docs can be viewed at http://localhost:8000/docs
+From the root of the repo run:
+```shell
+php artisan serve # Starts the server on port 8000
+php artisan scribe:generate # Generates the API docs after changes
+```
 
 ### 🏃‍♂️ Developing
 
