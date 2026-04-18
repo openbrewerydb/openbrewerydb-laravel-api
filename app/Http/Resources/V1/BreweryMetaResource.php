@@ -17,6 +17,7 @@ class BreweryMetaResource extends JsonResource
         return [
             'total' => $this->resource['total'],
             'by_state' => $this->resource['by_state'],
+            'by_country' => $this->resource['by_country'],
             'by_type' => $this->resource['by_type'],
             'page' => $this->resource['page'] ?? 1,
             'per_page' => $this->resource['per_page'] ?? 50,
