@@ -33,6 +33,14 @@ class GetBreweriesMeta extends Controller
             ->pluck('count', 'state_province')
             ->toArray();
 
+        // Get by_country with filters applied
+        $byCountry = (clone $baseQuery)
+            ->select('country', DB::raw('count(*) as count'))
+            ->whereNotNull('country')
+            ->groupBy('country')
+            ->pluck('count', 'country')
+            ->toArray();
+
         // Get by_type with filters applied
         $byType = (clone $baseQuery)
             ->select('brewery_type', DB::raw('count(*) as count'))
@@ -50,6 +58,7 @@ class GetBreweriesMeta extends Controller
         $data = new BreweryMetaResource([
             'total' => $total,
             'by_state' => $byState,
+            'by_country' => $byCountry,
             'by_type' => $byType,
             'page' => $page,
             'per_page' => $perPage,

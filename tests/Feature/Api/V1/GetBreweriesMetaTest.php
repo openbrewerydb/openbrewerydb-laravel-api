@@ -168,6 +168,18 @@ test('returns validation error when an invalid brewery type is provided', functi
         ->assertJsonValidationErrors(['by_type']);
 });
 
+test('returns total breweries by country', function () {
+    createBreweries(3, ['country' => 'United States']);
+    createBreweries(2, ['country' => 'Canada']);
+
+    $response = $this->getJson('/v1/breweries/meta');
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('by_country.United States', 3)
+        ->assertJsonPath('by_country.Canada', 2);
+});
+
 test('filters meta data by country', function () {
     createBreweries(3, [
         'country' => 'United States',
@@ -183,8 +195,44 @@ test('filters meta data by country', function () {
     $this->assertJsonApiResponse($response)
         ->assertOk()
         ->assertJsonPath('total', 2)
+        ->assertJsonPath('by_country.Canada', 2)
         ->assertJsonPath('by_state.British Columbia', 2)
+        ->assertJsonMissingPath('by_country.United States')
         ->assertJsonMissingPath('by_state.California');
+});
+
+test('by_country aggregation respects other filters', function () {
+    createBreweries(2, [
+        'country' => 'United States',
+        'brewery_type' => BreweryType::Micro,
+    ]);
+    createBreweries(3, [
+        'country' => 'United States',
+        'brewery_type' => BreweryType::Brewpub,
+    ]);
+    createBreweries(4, [
+        'country' => 'Canada',
+        'brewery_type' => BreweryType::Micro,
+    ]);
+
+    $response = $this->getJson('/v1/breweries/meta?by_type=micro');
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('total', 6)
+        ->assertJsonPath('by_country.United States', 2)
+        ->assertJsonPath('by_country.Canada', 4)
+        ->assertJsonMissingPath('by_type.brewpub');
+});
+
+test('handles utf8 characters in country names', function () {
+    createBreweries(2, ['country' => 'São Tomé and Príncipe']);
+
+    $response = $this->getJson('/v1/breweries/meta');
+
+    $this->assertJsonApiResponse($response)
+        ->assertOk()
+        ->assertJsonPath('by_country.São Tomé and Príncipe', 2);
 });
 
 test('filters meta data by postal code', function () {
