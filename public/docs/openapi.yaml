@@ -1,0 +1,334 @@
+openapi: 3.1.0
+info:
+  title: 'Open Brewery DB API API Documentation'
+  description: 'Open Brewery DB is a free dataset and API with public information on breweries, cideries, brewpubs, and bottleshops'
+  version: 1.0.0
+servers:
+  -
+    url: 'https://api.openbrewerydb.org'
+tags:
+  -
+    name: Endpoints
+    description: ''
+paths:
+  /v1/breweries:
+    get:
+      summary: 'List breweries.'
+      operationId: listBreweries
+      description: 'Returns a paginated list of breweries based on optional filters and sorting.'
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      - 'Server Error'
+                examples:
+                  -
+                    message: 'Server Error'
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                per_page:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 200.'
+                  examples:
+                    - 1
+                page:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  examples:
+                    - 22
+                sort:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+                by_city:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - 'n'
+                by_country:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - g
+                by_dist:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+                by_dist_radius:
+                  type: number
+                  description: 'Must be at least 0.1. Must not be greater than 10000.'
+                  examples:
+                    - 22
+                by_dist_unit:
+                  type: string
+                  description: ''
+                  enum:
+                    - km
+                    - mi
+                  examples:
+                    - km
+                by_ids:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - g
+                by_name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - z
+                by_postal:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - m
+                by_state:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - i
+                by_type:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+                exclude_types:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+      security: []
+  /v1/breweries/meta:
+    get:
+      summary: 'Get metadata about the brewery'
+      operationId: getMetadataAboutTheBrewery
+      description: 'Takes the same filters as List Breweries.'
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      - 'Server Error'
+                examples:
+                  -
+                    message: 'Server Error'
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                per_page:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 200.'
+                  examples:
+                    - 1
+                page:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  examples:
+                    - 22
+                sort:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+                by_city:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - 'n'
+                by_country:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - g
+                by_dist:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+                by_dist_radius:
+                  type: number
+                  description: 'Must be at least 0.1. Must not be greater than 10000.'
+                  examples:
+                    - 22
+                by_dist_unit:
+                  type: string
+                  description: ''
+                  enum:
+                    - km
+                    - mi
+                  examples:
+                    - mi
+                by_ids:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - g
+                by_name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - z
+                by_postal:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - m
+                by_state:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - i
+                by_type:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+                exclude_types:
+                  type: string
+                  description: ''
+                  examples:
+                    - architecto
+      security: []
+  /v1/breweries/random:
+    get:
+      summary: 'Get a random brewery.'
+      operationId: getARandomBrewery
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      - 'Server Error'
+                examples:
+                  -
+                    message: 'Server Error'
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                size:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  examples:
+                    - 1
+      security: []
+  /v1/breweries/search:
+    get:
+      summary: 'Search for breweries.'
+      operationId: searchForBreweries
+      description: 'The search performs partial, case-insensitive matching against brewery names.'
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      - 'Server Error'
+                examples:
+                  -
+                    message: 'Server Error'
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                per_page:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 200.'
+                  examples:
+                    - 1
+                query:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  examples:
+                    - 'n'
+              required:
+                - query
+      security: []
+  '/v1/breweries/{id}':
+    get:
+      summary: 'Get a single brewery.'
+      operationId: getASingleBrewery
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      - 'Server Error'
+                examples:
+                  -
+                    message: 'Server Error'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the brewery.'
+        required: true
+        schema:
+          type: string
+          examples:
+            - architecto

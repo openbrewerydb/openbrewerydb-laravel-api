@@ -8,7 +8,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset("/vendor/scribe/css/theme-elements.style.css") }}" media="screen">
+    <link rel="stylesheet" href="../docs/css/theme-elements.style.css" media="screen">
 
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
@@ -26,7 +26,7 @@
             var useCsrf = Boolean();
             var csrfUrl = "/sanctum/csrf-cookie";
         </script>
-        <script src="{{ asset("/vendor/scribe/js/tryitout-5.8.0.js") }}"></script>
+        <script src="../docs/js/tryitout-5.8.0.js"></script>
         <style>
             .code-editor, .response-content {
                 color: whitesmoke;
@@ -402,11 +402,11 @@
                     Open Brewery DB API API Documentation
                 </h1>
                                     <a title="Download Postman collection" class="sl-mx-1"
-                       href="{{ route("scribe.postman") }}" target="_blank">
+                       href="../docs/collection.json" target="_blank">
                         <small>Postman collection →</small>
                     </a>
                                                     <a title="Download OpenAPI spec" class="sl-mx-1"
-                       href="{{ route("scribe.openapi") }}" target="_blank">
+                       href="../docs/openapi.yaml" target="_blank">
                         <small>OpenAPI spec →</small>
                     </a>
                             </div>
@@ -1450,7 +1450,7 @@ vary: Origin</code></pre>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        km
+                        mi
                     </div>
                 </div>
             </div>
@@ -1695,7 +1695,7 @@ vary: Origin</code></pre>
     "by_country": "g",
     "by_dist": "architecto",
     "by_dist_radius": 22,
-    "by_dist_unit": "km",
+    "by_dist_unit": "mi",
     "by_ids": "g",
     "by_name": "z",
     "by_postal": "m",
@@ -1804,7 +1804,7 @@ You can check the Dev Tools console for debugging information.</p>
     \"by_country\": \"g\",
     \"by_dist\": \"architecto\",
     \"by_dist_radius\": 22,
-    \"by_dist_unit\": \"km\",
+    \"by_dist_unit\": \"mi\",
     \"by_ids\": \"g\",
     \"by_name\": \"z\",
     \"by_postal\": \"m\",
@@ -1836,7 +1836,7 @@ let body = {
     "by_country": "g",
     "by_dist": "architecto",
     "by_dist_radius": 22,
-    "by_dist_unit": "km",
+    "by_dist_unit": "mi",
     "by_ids": "g",
     "by_name": "z",
     "by_postal": "m",
