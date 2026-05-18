@@ -1,14 +1,17 @@
 {
     "agents": [
         "claude_code",
-        "cursor",
-        "opencode"
+        "cursor"
     ],
-    "editors": [
-        "claude_code",
-        "cursor",
-        "vscode"
+    "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "packages": [
+        "laravel/scout"
     ],
-    "guidelines": [],
-    "sail": true
+    "sail": true,
+    "skills": [
+        "pest-testing",
+        "scout-development"
+    ]
 }
