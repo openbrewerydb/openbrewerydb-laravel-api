@@ -21,6 +21,7 @@
         "fakerphp/faker": "^1.24.1",
         "laravel/boost": "^2.4.7",
         "laravel/pail": "^1.2.6",
+        "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.29.1",
         "laravel/sail": "^1.59.0",
         "laravel/tinker": "^3.0.2",

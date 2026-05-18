@@ -6,8 +6,8 @@
     ],
     "cloud": false,
     "guidelines": true,
-    "herd_mcp": false,
     "mcp": true,
+    "nightwatch": false,
     "sail": true,
     "skills": [
         "laravel-best-practices",
