@@ -1,39 +1,38 @@
 ---
 name: pest-testing
-description: "Tests applications using the Pest 3 PHP framework. Activates when writing tests, creating unit or feature tests, adding assertions, testing Livewire components, architecture testing, debugging test failures, working with datasets or mocking; or when the user mentions test, spec, TDD, expects, assertion, coverage, or needs to verify functionality works."
+description: "Use this skill for Pest PHP testing in Laravel projects only. Trigger whenever any test is being written, edited, fixed, or refactored — including fixing tests that broke after a code change, adding assertions, converting PHPUnit to Pest, adding datasets, and TDD workflows. Always activate when the user asks how to write something in Pest, mentions test files or directories (tests/Feature, tests/Unit, tests/Browser), or needs browser testing, smoke testing multiple pages for JS errors, or architecture tests. Covers: test()/it()/expect() syntax, datasets, mocking, browser testing (visit/click/fill), smoke testing, arch(), Livewire component tests, RefreshDatabase, and all Pest 4 features. Do not use for factories, seeders, migrations, controllers, models, or non-test PHP code."
 license: MIT
 metadata:
   author: laravel
 ---
 
-# Pest Testing 3
-
-## When to Apply
-
-Activate this skill when:
-- Creating new tests (unit or feature)
-- Modifying existing tests
-- Debugging test failures
-- Working with datasets, mocking, or test organization
-- Writing architecture tests
+# Pest Testing 4
 
 ## Documentation
 
-Use `search-docs` for detailed Pest 3 patterns and documentation.
+Use `search-docs` for detailed Pest 4 patterns and documentation.
 
 ## Basic Usage
 
 ### Creating Tests
 
-All tests must be written using Pest. Use `php artisan make:test --pest {name}`.
+All tests must be written using Pest. Use `vendor/bin/sail artisan make:test --pest {name}`.
+
+The `{name}` argument should include only the path and test name, but should not include the test suite.
+- Incorrect: `vendor/bin/sail artisan make:test --pest Feature/SomeFeatureTest` will generate `tests/Feature/Feature/SomeFeatureTest.php`
+- Correct: `vendor/bin/sail artisan make:test --pest SomeControllerTest` will generate `tests/Feature/SomeControllerTest.php`
+- Incorrect: `vendor/bin/sail artisan make:test --pest --unit Unit/SomeServiceTest` will generate `tests/Unit/Unit/SomeServiceTest.php`
+- Correct: `vendor/bin/sail artisan make:test --pest --unit SomeServiceTest` will generate `tests/Unit/SomeServiceTest.php`
 
 ### Test Organization
 
-- Tests live in the `tests/Feature` and `tests/Unit` directories.
+- Unit/Feature tests: `tests/Feature` and `tests/Unit` directories.
+- Browser tests: `tests/Browser/` directory.
 - Do NOT remove tests without approval - these are core application code.
-- Test happy paths, failure paths, and edge cases.
 
 ### Basic Test Structure
+
+Pest supports both `test()` and `it()` functions. Before writing new tests, check existing test files in the same directory to match the project's convention. Use `test()` if existing tests use `test()`, or `it()` if they use `it()`.
 
 <!-- Basic Pest Test Example -->
 ```php
@@ -44,9 +43,9 @@ it('is true', function () {
 
 ### Running Tests
 
-- Run minimal tests with filter before finalizing: `php artisan test --compact --filter=testName`.
-- Run all tests: `php artisan test --compact`.
-- Run file: `php artisan test --compact tests/Feature/ExampleTest.php`.
+- Run minimal tests with filter before finalizing: `vendor/bin/sail artisan test --compact --filter=testName`.
+- Run all tests: `vendor/bin/sail artisan test --compact`.
+- Run file: `vendor/bin/sail artisan test --compact tests/Feature/ExampleTest.php`.
 
 ## Assertions
 
@@ -83,11 +82,71 @@ it('has emails', function (string $email) {
 ]);
 ```
 
-## Pest 3 Features
+## Pest 4 Features
+
+| Feature | Purpose |
+|---------|---------|
+| Browser Testing | Full integration tests in real browsers |
+| Smoke Testing | Validate multiple pages quickly |
+| Visual Regression | Compare screenshots for visual changes |
+| Test Sharding | Parallel CI runs |
+| Architecture Testing | Enforce code conventions |
+
+### Browser Test Example
+
+Browser tests run in real browsers for full integration testing:
+
+- Browser tests live in `tests/Browser/`.
+- Use Laravel features like `Event::fake()`, `assertAuthenticated()`, and model factories.
+- Use `RefreshDatabase` for clean state per test.
+- Interact with page: click, type, scroll, select, submit, drag-and-drop, touch gestures.
+- Test on multiple browsers (Chrome, Firefox, Safari) if requested.
+- Test on different devices/viewports (iPhone 14 Pro, tablets) if requested.
+- Switch color schemes (light/dark mode) when appropriate.
+- Take screenshots or pause tests for debugging.
+
+<!-- Pest Browser Test Example -->
+```php
+it('may reset the password', function () {
+    Notification::fake();
+
+    $this->actingAs(User::factory()->create());
+
+    $page = visit('/sign-in');
+
+    $page->assertSee('Sign In')
+        ->assertNoJavaScriptErrors()
+        ->click('Forgot Password?')
+        ->fill('email', 'nuno@laravel.com')
+        ->click('Send Reset Link')
+        ->assertSee('We have emailed your password reset link!');
+
+    Notification::assertSent(ResetPassword::class);
+});
+```
+
+### Smoke Testing
+
+Quickly validate multiple pages have no JavaScript errors:
+
+<!-- Pest Smoke Testing Example -->
+```php
+$pages = visit(['/', '/about', '/contact']);
+
+$pages->assertNoJavaScriptErrors()->assertNoConsoleLogs();
+```
+
+### Visual Regression Testing
+
+Capture and compare screenshots to detect visual changes.
+
+### Test Sharding
+
+Split tests across parallel processes for faster CI runs.
 
 ### Architecture Testing
 
-Pest 3 includes architecture testing to enforce code conventions:
+Pest 4 includes architecture testing (from Pest 3):
 
 <!-- Architecture Test Example -->
 ```php
@@ -95,19 +154,7 @@ arch('controllers')
     ->expect('App\Http\Controllers')
     ->toExtendNothing()
     ->toHaveSuffix('Controller');
-
-arch('models')
-    ->expect('App\Models')
-    ->toExtend('Illuminate\Database\Eloquent\Model');
-
-arch('no debugging')
-    ->expect(['dd', 'dump', 'ray'])
-    ->not->toBeUsed();
 ```
-
-### Type Coverage
-
-Pest 3 provides improved type coverage analysis. Run with `--type-coverage` flag.
 
 ## Common Pitfalls
 
@@ -115,3 +162,5 @@ Pest 3 provides improved type coverage analysis. Run with `--type-coverage` flag
 - Using `assertStatus(200)` instead of `assertSuccessful()`
 - Forgetting datasets for repetitive validation tests
 - Deleting tests without approval
+- Forgetting `assertNoJavaScriptErrors()` in browser tests
+- Prefixing `Feature/` or `Unit/` in `{name}` when using `make:test`

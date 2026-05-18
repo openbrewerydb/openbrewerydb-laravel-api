@@ -4,15 +4,14 @@
         "cursor",
         "opencode"
     ],
+    "cloud": false,
     "guidelines": true,
     "herd_mcp": false,
     "mcp": true,
-    "packages": [
-        "laravel/scout"
-    ],
     "sail": true,
     "skills": [
-        "pest-testing",
-        "scout-development"
+        "laravel-best-practices",
+        "scout-development",
+        "pest-testing"
     ]
 }
