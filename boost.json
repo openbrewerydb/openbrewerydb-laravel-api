@@ -4,11 +4,14 @@
         "cursor",
         "opencode"
     ],
-    "editors": [
-        "claude_code",
-        "cursor",
-        "vscode"
-    ],
-    "guidelines": [],
-    "sail": true
+    "cloud": false,
+    "guidelines": true,
+    "mcp": true,
+    "nightwatch": false,
+    "sail": true,
+    "skills": [
+        "laravel-best-practices",
+        "scout-development",
+        "pest-testing"
+    ]
 }
