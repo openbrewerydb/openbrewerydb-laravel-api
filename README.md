@@ -7,27 +7,27 @@ This is the official Laravel-powered backend for the Open Brewery DB API.
 
 ### Table of Contents
 
--   [Features](#features)
--   [API Documentation](#api-documentation)
--   [Development Setup](#-developing)
--   [Running Tests](#-running-tests)
--   [Code Style](#-code-style)
--   [Contributing](#-contributing)
--   [License](#-license)
+- [Features](#features)
+- [API Documentation](#api-documentation)
+- [Development Setup](#-developing)
+- [Running Tests](#-running-tests)
+- [Code Style](#-code-style)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ### Features
 
--   **RESTful API**: A clean, modern API for accessing brewery data.
--   **Powerful Search**: Full-text search powered by Meilisearch.
--   **Extensive Filtering**: Filter breweries by city, state, country, postal code, type, name, and distance.
--   **Flexible Sorting**: Sort results by multiple fields in ascending or descending order.
--   **Pagination**: Simple and predictable pagination for all list endpoints.
--   **Metadata Endpoint**: Get total counts of breweries aggregated by state and type.
--   **Random Brewery**: Fetch a random brewery, perfect for discovery.
+- **RESTful API**: A clean, modern API for accessing brewery data.
+- **Powerful Search**: Full-text search powered by Meilisearch.
+- **Extensive Filtering**: Filter breweries by city, state, country, postal code, type, name, and distance.
+- **Flexible Sorting**: Sort results by multiple fields in ascending or descending order.
+- **Pagination**: Simple and predictable pagination for all list endpoints.
+- **Metadata Endpoint**: Get total counts of breweries aggregated by state and type.
+- **Random Brewery**: Fetch a random brewery, perfect for discovery.
 
 ### API Documentation
 
-Interactive API spec, Postman collection, and Swagger/OpenAPI are 
+Interactive API spec, Postman collection, and Swagger/OpenAPI are
 available at [https://api.openbrewerydb.org/docs](https://api.openbrewerydb.org/docs).
 
 Generated via [Scribe](https://scribe.knuckles.wtf/).
@@ -36,9 +36,10 @@ Generated via [Scribe](https://scribe.knuckles.wtf/).
 
 Local docs can be viewed at http://localhost:8000/docs
 From the root of the repo run:
+
 ```shell
-php artisan serve # Starts the server on port 8000
-php artisan scribe:generate # Generates the API docs after changes
+./vendor/bin/sail artisan serve # Starts the server on port 8000
+./vendor/bin/sail artisan scribe:generate # Generates the API docs after changes
 ```
 
 ### 🏃‍♂️ Developing
@@ -57,8 +58,8 @@ This will build the Docker container, install all dependencies, and set up your 
 
 After the first-time setup, you can manage the development environment with these commands:
 
--   **Start the environment**: `./vendor/bin/sail up -d`
--   **Stop the environment**: `./vendor/bin/sail down`
+- **Start the environment**: `./vendor/bin/sail up -d`
+- **Stop the environment**: `./vendor/bin/sail down`
 
 #### 👇 Importing Data
 
@@ -71,14 +72,14 @@ The database needs to be populated with brewery data from the official dataset.
 
 The application has a comprehensive test suite built with Pest.
 
--   To run all tests, use: `./vendor/bin/sail artisan test`
--   To run tests with code coverage, use the provided script: `./run-tests-with-coverage.sh` (The report will be generated in the `coverage/` directory).
+- To run all tests, use: `./vendor/bin/sail artisan test`
+- To run tests with code coverage, use the provided script: `./run-tests-with-coverage.sh` (The report will be generated in the `coverage/` directory).
 
 ### ✨ Code Style
 
 This project uses [Laravel Pint](https://laravel.com/docs/11.x/pint) to enforce a consistent code style.
 
--   To automatically format your code, run: `./vendor/bin/sail pint`
+- To automatically format your code, run: `./vendor/bin/sail pint`
 
 ### 🤝 Contributing
 
