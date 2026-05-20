@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/docs
 /storage/*.key
 /storage/pail
 /vendor
@@ -23,3 +24,4 @@ yarn-error.log
 /.zed
 .DS_Store
 /coverage
+/.scribe/endpoints*

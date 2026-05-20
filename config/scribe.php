@@ -64,7 +64,7 @@ INTRO,
     // - "static" will generate a static HTMl page in the /public/docs folder,
     // - "laravel" will generate the documentation as a Blade view, so you can add routing and authentication.
     // - "external_static" and "external_laravel" do the same as above, but pass the OpenAPI spec as a URL to an external UI template
-    'type' => 'laravel',
+    'type' => 'static',
 
     // See https://scribe.knuckles.wtf/laravel/reference/config#theme for supported options
     'theme' => 'elements',
@@ -148,6 +148,8 @@ INTRO,
     'example_languages' => [
         'bash',
         'javascript',
+        'python',
+        'php'
     ],
 
     // Generate a Postman collection (v2.1.0) in addition to HTML docs.
