@@ -11,23 +11,23 @@
     "require": {
         "php": "^8.3",
         "http-interop/http-factory-guzzle": "^1.2.1",
-        "knuckleswtf/scribe": "^5.10",
-        "laravel/framework": "^13.11.2",
-        "laravel/scout": "^11.2",
+        "knuckleswtf/scribe": "^5.11",
+        "laravel/framework": "^13.16.1",
+        "laravel/scout": "^11.3",
         "meilisearch/meilisearch-php": "^1.16.1",
-        "sentry/sentry-laravel": "^4.25.1"
+        "sentry/sentry-laravel": "^4.26.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",
-        "laravel/boost": "^2.4.8",
-        "laravel/pail": "^1.2.6",
-        "laravel/pao": "^1.0.6",
-        "laravel/pint": "^1.29.1",
-        "laravel/sail": "^1.60.0",
+        "laravel/boost": "^2.4.10",
+        "laravel/pail": "^1.2.7",
+        "laravel/pao": "^1.1.2",
+        "laravel/pint": "^1.29.3",
+        "laravel/sail": "^1.62.0",
         "laravel/tinker": "^3.0.2",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.4",
-        "pestphp/pest": "^4.7",
+        "pestphp/pest": "^4.7.3",
         "pestphp/pest-plugin-laravel": "^4.1"
     },
     "autoload": {
@@ -49,7 +49,8 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan boost:update --ansi"
+            "@php artisan boost:update --ansi",
+            "composer bump --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
