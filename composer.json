@@ -12,22 +12,22 @@
         "php": "^8.3",
         "http-interop/http-factory-guzzle": "^1.2.1",
         "knuckleswtf/scribe": "^5.11",
-        "laravel/framework": "^13.16.1",
+        "laravel/framework": "^13.20.0",
         "laravel/scout": "^11.3",
         "meilisearch/meilisearch-php": "^1.16.1",
-        "sentry/sentry-laravel": "^4.26.0"
+        "sentry/sentry-laravel": "^4.27.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",
-        "laravel/boost": "^2.4.10",
+        "laravel/boost": "^2.4.13",
         "laravel/pail": "^1.2.7",
         "laravel/pao": "^1.1.2",
         "laravel/pint": "^1.29.3",
-        "laravel/sail": "^1.62.0",
+        "laravel/sail": "^1.63.0",
         "laravel/tinker": "^3.0.2",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/collision": "^8.9.4",
-        "pestphp/pest": "^4.7.3",
+        "nunomaduro/collision": "^8.9.5",
+        "pestphp/pest": "^4.7.5",
         "pestphp/pest-plugin-laravel": "^4.1"
     },
     "autoload": {
