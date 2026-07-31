@@ -31,6 +31,18 @@ test('server initializes over the public HTTP endpoint', function () {
         ->assertJsonPath('result.capabilities.tools.listChanged', false);
 });
 
+test('public MCP endpoint can be disabled', function () {
+    config(['platform.mcp_enabled' => false]);
+
+    $this->postJson('/mcp', [
+        'jsonrpc' => '2.0',
+        'id' => 1,
+        'method' => 'initialize',
+        'params' => [],
+    ])->assertServiceUnavailable()
+        ->assertJsonPath('message', 'The MCP server is currently disabled.');
+});
+
 test('server exposes four read-only tools with structured schemas', function () {
     $response = $this->postJson('/mcp', [
         'jsonrpc' => '2.0',

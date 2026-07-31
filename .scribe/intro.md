@@ -93,4 +93,5 @@ Add the HTTP server to your user or workspace `mcp.json`:
 
 If a client receives HTTP `429 Too Many Requests`, wait for the `Retry-After` period before making
 more requests. MCP clients discover the current input and output schema for each tool directly from
-the server.
+the server. HTTP `503 Service Unavailable` indicates that the MCP server has been temporarily
+disabled by the Open Brewery DB operators.

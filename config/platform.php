@@ -6,5 +6,7 @@ return [
 
     'api_rate_limit' => (int) env('API_RATE_LIMIT', 120), // requests per minute
 
+    'mcp_enabled' => (bool) env('MCP_ENABLED', true),
+
     'mcp_rate_limit' => (int) env('MCP_RATE_LIMIT', 60), // requests per minute
 ];

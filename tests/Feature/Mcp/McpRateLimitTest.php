@@ -28,5 +28,26 @@ test('rate limits public MCP requests by IP address', function () {
 });
 
 test('uses a default limit of sixty requests per minute', function () {
-    expect(config('platform.mcp_rate_limit'))->toBe(60);
+    expect(config('platform.mcp_enabled'))->toBeTrue()
+        ->and(config('platform.mcp_rate_limit'))->toBe(60);
+});
+
+test('disabled requests do not consume the MCP rate limit', function () {
+    config([
+        'platform.mcp_enabled' => false,
+        'platform.mcp_rate_limit' => 1,
+    ]);
+
+    $payload = [
+        'jsonrpc' => '2.0',
+        'id' => 1,
+        'method' => 'ping',
+        'params' => [],
+    ];
+
+    $this->postJson('/mcp', $payload)->assertServiceUnavailable();
+
+    config(['platform.mcp_enabled' => true]);
+
+    $this->postJson('/mcp', $payload)->assertOk();
 });

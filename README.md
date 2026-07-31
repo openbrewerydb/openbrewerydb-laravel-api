@@ -53,6 +53,10 @@ authentication, and is limited to 60 requests per minute per IP address.
 Connection instructions for Claude, OpenCode, and VS Code are available in the
 [API documentation](https://api.openbrewerydb.org/docs).
 
+Set `MCP_ENABLED=false` to temporarily return `503 Service Unavailable` from the
+public MCP endpoint. Rebuild the application configuration cache after changing
+the value in a deployed environment.
+
 ### 🏃‍♂️ Developing
 
 Open Brewery DB API utilizes [Laravel Sail](https://laravel.com/docs/11.x/sail) to create a Docker development environment. As a result, [Docker](https://www.docker.com/) is the only prerequisite to get started.
