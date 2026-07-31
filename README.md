@@ -9,6 +9,7 @@ This is the official Laravel-powered backend for the Open Brewery DB API.
 
 - [Features](#features)
 - [API Documentation](#api-documentation)
+- [Model Context Protocol](#model-context-protocol)
 - [Development Setup](#-developing)
 - [Running Tests](#-running-tests)
 - [Code Style](#-code-style)
@@ -24,6 +25,7 @@ This is the official Laravel-powered backend for the Open Brewery DB API.
 - **Pagination**: Simple and predictable pagination for all list endpoints.
 - **Metadata Endpoint**: Get total counts of breweries aggregated by state and type.
 - **Random Brewery**: Fetch a random brewery, perfect for discovery.
+- **Model Context Protocol**: Connect AI agents directly to the public brewery dataset.
 
 ### API Documentation
 
@@ -41,6 +43,15 @@ From the root of the repo run:
 ./vendor/bin/sail artisan serve # Starts the server on port 8000
 ./vendor/bin/sail artisan scribe:generate # Generates the API docs after changes
 ```
+
+### Model Context Protocol
+
+AI agents can query Open Brewery DB through the public, read-only MCP server at
+`https://api.openbrewerydb.org/mcp`. It uses Streamable HTTP, requires no
+authentication, and is limited to 60 requests per minute per IP address.
+
+Connection instructions for Claude, OpenCode, and VS Code are available in the
+[API documentation](https://api.openbrewerydb.org/docs).
 
 ### 🏃‍♂️ Developing
 

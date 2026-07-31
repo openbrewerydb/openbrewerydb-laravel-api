@@ -17,7 +17,7 @@ class BreweryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'brewery_type' => $this->brewery_type,
+            'brewery_type' => $this->brewery_type?->value,
             'address_1' => $this->address_1,
             'address_2' => $this->address_2,
             'address_3' => $this->address_3,

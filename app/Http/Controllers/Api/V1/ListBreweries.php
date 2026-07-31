@@ -17,10 +17,10 @@ class ListBreweries extends Controller
      */
     public function __invoke(BreweryFilterRequest $request)
     {
-
+        $filters = $request->validated();
         $breweries = Brewery::query()
-            ->applyFilters($request)
-            ->applySorts($request)
+            ->applyFilters($filters)
+            ->applySorts($filters)
             ->paginate(perPage: $request->integer('per_page', 50));
 
         return response()->json(
