@@ -39,6 +39,11 @@ test('returns empty metadata groups when no breweries match', function () {
     OpenBreweryDbServer::tool(GetBreweryMetadataTool::class, [
         'state' => 'California',
     ])->assertOk()
+        ->assertSee([
+            '"by_state":{}',
+            '"by_country":{}',
+            '"by_type":{}',
+        ])
         ->assertStructuredContent([
             'total' => 0,
             'by_state' => [],

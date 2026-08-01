@@ -9,7 +9,7 @@ class GetBreweryMetadata
 {
     /**
      * @param  array<string, mixed>  $filters
-     * @return array{total: int, by_state: array<string, int>, by_country: array<string, int>, by_type: array<string, int>}
+     * @return array{total: int, by_state: object, by_country: object, by_type: object}
      */
     public function handle(array $filters): array
     {
@@ -44,9 +44,9 @@ class GetBreweryMetadata
 
         return [
             'total' => (clone $baseQuery)->reorder()->count(),
-            'by_state' => $byState,
-            'by_country' => $byCountry,
-            'by_type' => $byType,
+            'by_state' => (object) $byState,
+            'by_country' => (object) $byCountry,
+            'by_type' => (object) $byType,
         ];
     }
 }
