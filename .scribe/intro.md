@@ -60,10 +60,11 @@ Add the remote server to `opencode.json`:
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "open-brewery-db": {
-      "type": "remote",
-      "url": "https://api.openbrewerydb.org/mcp",
-      "enabled": true
+    "servers": {
+      "open-brewery-db": {
+        "type": "remote",
+        "url": "https://api.openbrewerydb.org/mcp"
+      }
     }
   }
 }
