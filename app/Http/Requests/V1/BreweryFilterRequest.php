@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Rules\BrewerySort as BrewerySortRule;
 use App\Rules\BreweryType as BreweryTypeRule;
 use App\Rules\Coordinates as CoordinatesRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +27,7 @@ class BreweryFilterRequest extends FormRequest
         return [
             'per_page' => ['sometimes', 'required', 'integer', 'min:1', 'max:200'],
             'page' => ['sometimes', 'required', 'integer', 'min:1'],
-            'sort' => ['sometimes', 'required', 'string'],
+            'sort' => ['sometimes', 'required', 'string', new BrewerySortRule],
 
             // filters
             'by_city' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
