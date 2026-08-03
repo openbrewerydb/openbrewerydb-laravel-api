@@ -49,6 +49,12 @@ class AppServiceProvider extends ServiceProvider
                 maxAttempts: config('platform.api_rate_limit'),
             )->by($request->user()?->id ?: $request->ip());
         });
+
+        RateLimiter::for('mcp', function (Request $request) {
+            return Limit::perMinute(
+                maxAttempts: config('platform.mcp_rate_limit'),
+            )->by($request->ip());
+        });
     }
 
     /**

@@ -15,6 +15,10 @@ pest()->extend(Tests\Feature\Api\ApiTestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature/Api');
 
+pest()->extend(Tests\TestCase::class)
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->in('Feature/Mcp');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations

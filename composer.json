@@ -13,6 +13,7 @@
         "http-interop/http-factory-guzzle": "^1.2.1",
         "knuckleswtf/scribe": "^5.11",
         "laravel/framework": "^13.20.0",
+        "laravel/mcp": "^0.9.1",
         "laravel/scout": "^11.3",
         "meilisearch/meilisearch-php": "^1.16.1",
         "sentry/sentry-laravel": "^4.27.0"

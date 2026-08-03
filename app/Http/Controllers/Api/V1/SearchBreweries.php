@@ -22,7 +22,7 @@ class SearchBreweries extends Controller
             'query' => ['required', 'string', 'min:3', 'max:255'],
         ]);
 
-        $query = urldecode(string: $request->string('query')->trim());
+        $query = $request->string('query')->trim();
 
         $breweries = Brewery::search(query: $query)
             ->simplePaginate(perPage: $request->integer('per_page', 50));
