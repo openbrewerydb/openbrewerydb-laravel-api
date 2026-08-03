@@ -77,7 +77,9 @@ trait BreweryFilters
                     ->toArray();
 
                 foreach ($values as $value) {
-                    $query->orderBy($value[0], $value[1] ?? 'asc');
+                    $field = $value[0] === 'type' ? 'brewery_type' : $value[0];
+
+                    $query->orderBy($field, $value[1] ?? 'asc');
                 }
             });
     }

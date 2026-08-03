@@ -47,3 +47,33 @@ test('breweries can be sorted by multiple fields', function () {
         ['name' => 'Alpha Brewing', 'city' => 'Portland'],
     ]);
 });
+
+test('breweries can be sorted by the documented type alias', function () {
+    createBrewery(['name' => 'Zebra Brewing', 'brewery_type' => 'micro']);
+    createBrewery(['name' => 'Alpha Brewing', 'brewery_type' => 'regional']);
+    createBrewery(['name' => 'Beta Brewing', 'brewery_type' => 'brewpub']);
+
+    $response = $this->getJson('/v1/breweries?sort=type,name:asc');
+
+    $response->assertOk();
+    $breweries = collect($response->json());
+    expect($breweries->pluck('brewery_type')->toArray())->toBe([
+        'brewpub',
+        'micro',
+        'regional',
+    ]);
+});
+
+test('invalid brewery sorts return a validation error', function (string $sort) {
+    $response = $this->getJson('/v1/breweries?'.http_build_query(['sort' => $sort]));
+
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrors('sort');
+})->with([
+    'invalid direction' => 'name:invalid',
+    'invalid field' => 'created_at:asc',
+    'missing field' => ':asc',
+    'missing direction' => 'name:',
+    'too many separators' => 'name:asc:desc',
+    'trailing separator' => 'name:asc,',
+]);
