@@ -8,6 +8,7 @@
     "nightwatch": false,
     "sail": true,
     "skills": [
+        "infer-conventions",
         "laravel-best-practices",
         "mcp-development",
         "scout-development",
