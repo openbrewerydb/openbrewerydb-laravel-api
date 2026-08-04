@@ -16,6 +16,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
 
     steps:
       - name: Checkout repository
@@ -50,3 +52,22 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           target: production
+
+  deploy:
+    needs: build
+    if: >-
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags/v') &&
+      needs.build.outputs.version != ''
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+
+    steps:
+      - name: Deploy to DigitalOcean App Platform
+        uses: digitalocean/app_action/deploy@v2
+        env:
+          IMAGE_TAG_OPENBREWERYDB_OPENBREWERYDB_LARA: ${{ needs.build.outputs.version }}
+        with:
+          app_name: obdb-api-prod
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
