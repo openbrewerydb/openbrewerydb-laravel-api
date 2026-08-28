@@ -25,3 +25,16 @@ yarn-error.log
 .DS_Store
 /coverage
 /.scribe/endpoints*
+
+# Laravel Boost generated files
+/boost.json
+/AGENTS.md
+/CLAUDE.md
+/.mcp.json
+/.agents/
+/.claude/
+/.cursor/mcp.json
+/.cursor/rules/laravel-boost.mdc
+/.cursor/skills/
+/.github/copilot-instructions.md
+/.github/skills/
