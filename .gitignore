@@ -31,8 +31,10 @@ yarn-error.log
 /AGENTS.md
 /CLAUDE.md
 /.mcp.json
+/opencode.json
 /.agents/
 /.claude/
+/.codex/
 /.cursor/mcp.json
 /.cursor/rules/laravel-boost.mdc
 /.cursor/skills/
