@@ -33,6 +33,7 @@ yarn-error.log
 /.mcp.json
 /.agents/
 /.claude/
+/.codex/
 /.cursor/mcp.json
 /.cursor/rules/laravel-boost.mdc
 /.cursor/skills/
