@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\BreweryFilterRequest;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class ListBreweries extends Controller
@@ -15,7 +16,7 @@ class ListBreweries extends Controller
      *
      * Returns a paginated list of breweries based on optional filters and sorting.
      */
-    public function __invoke(BreweryFilterRequest $request)
+    public function __invoke(BreweryFilterRequest $request): JsonResponse
     {
         $filters = $request->validated();
         $breweries = Brewery::query()
