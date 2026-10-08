@@ -324,9 +324,6 @@ test('meta endpoint returns cache control headers', function () {
 
     $response->assertOk();
 
-    // Check that the Cache-Control header contains the expected values
-    $cacheControl = $response->headers->get('Cache-Control');
-    expect($cacheControl)->toContain('public');
-    expect($cacheControl)->toContain('max-age=');
-    expect($cacheControl)->toContain('etag');
+    $response->assertHeader('Cache-Control', 'max-age=300, public')
+        ->assertHeader('ETag');
 });

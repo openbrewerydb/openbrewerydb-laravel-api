@@ -18,11 +18,9 @@ class GetBrewery extends Controller
     {
         $brewery = new BreweryResource(Brewery::findOrFail($id));
 
-        return response()
-            ->json(
-                data: $brewery,
-                status: Response::HTTP_OK,
-                headers: ['Cache-Control' => 'public, max-age='.config('platform.cache_control_max_age')],
-            );
+        return response()->json(
+            data: $brewery,
+            status: Response::HTTP_OK,
+        );
     }
 }

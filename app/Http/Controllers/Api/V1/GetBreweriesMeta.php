@@ -24,7 +24,6 @@ class GetBreweriesMeta extends Controller
         return response()->json(
             data: new BreweryMetaResource($metadata),
             status: Response::HTTP_OK,
-            headers: ['Cache-Control' => 'public, max-age=300, etag'],
         );
     }
 }
