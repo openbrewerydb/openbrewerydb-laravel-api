@@ -18,21 +18,16 @@ test('random brewery returns the requested number of breweries', function () {
         ->assertJsonCount(3);
 });
 
-test('random brewery validates size parameter', function () {
-    createBreweries(5);
+test('random brewery validates size parameter', function (string $size, string $message) {
+    $response = $this->getJson("/v1/breweries/random?size={$size}");
 
-    // Test size less than 1
-    $response = $this->getJson('/v1/breweries/random?size=0');
-    $response->assertStatus(400);
-
-    // Test size greater than 50
-    $response = $this->getJson('/v1/breweries/random?size=51');
-    $response->assertStatus(400);
-
-    // Test invalid size type
-    $response = $this->getJson('/v1/breweries/random?size=abc');
-    $response->assertStatus(400);
-});
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrors(['size' => $message]);
+})->with([
+    'below minimum' => ['0', 'The size field must be at least 1.'],
+    'above maximum' => ['51', 'The size field must not be greater than 50.'],
+    'not an integer' => ['abc', 'The size field must be an integer.'],
+]);
 
 test('random brewery returns all available breweries when size is greater than total', function () {
     createBreweries(3);
