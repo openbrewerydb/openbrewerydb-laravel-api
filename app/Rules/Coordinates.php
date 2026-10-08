@@ -14,6 +14,10 @@ class Coordinates implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if (! is_string($value)) {
+            return;
+        }
+
         // Split the value by comma
         $parts = explode(',', $value);
 

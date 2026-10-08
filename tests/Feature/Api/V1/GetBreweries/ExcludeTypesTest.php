@@ -64,3 +64,10 @@ test('exclude types handles invalid type values', function () {
     $response->assertStatus(422)
         ->assertJsonValidationErrors(['exclude_types']);
 });
+
+test('exclude types returns validation error when provided as an array', function () {
+    $response = $this->getJson('/v1/breweries?exclude_types[]=micro');
+
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrors(['exclude_types' => 'The exclude types field must be a string.']);
+});
