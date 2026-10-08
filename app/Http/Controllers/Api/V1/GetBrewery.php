@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class GetBrewery extends Controller
@@ -14,12 +13,10 @@ class GetBrewery extends Controller
     /**
      * Get a single brewery.
      */
-    public function __invoke(Request $request, string $id): JsonResponse
+    public function __invoke(Brewery $brewery): JsonResponse
     {
-        $brewery = new BreweryResource(Brewery::findOrFail($id));
-
         return response()->json(
-            data: $brewery,
+            data: new BreweryResource($brewery),
             status: Response::HTTP_OK,
         );
     }

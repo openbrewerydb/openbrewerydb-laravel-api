@@ -18,7 +18,8 @@ Route::middleware('throttle:api')->name('v1.')->prefix('v1')->group(function () 
         Route::get('/breweries/search', SearchBreweries::class)->name('breweries.search');
     });
 
-    Route::get('/breweries/{id}', GetBrewery::class)
+    Route::get('/breweries/{brewery}', GetBrewery::class)
+        ->whereUuid('brewery')
         ->middleware('cache.headers:public;max_age='.config('platform.cache_control_max_age').';etag')
         ->name('breweries.show');
 });
