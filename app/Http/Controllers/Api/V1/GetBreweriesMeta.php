@@ -6,6 +6,7 @@ use App\Actions\Breweries\GetBreweryMetadata;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\BreweryFilterRequest;
 use App\Http\Resources\V1\BreweryMetaResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class GetBreweriesMeta extends Controller
@@ -15,7 +16,7 @@ class GetBreweriesMeta extends Controller
      *
      * Takes the same filters as List Breweries.
      */
-    public function __invoke(BreweryFilterRequest $request, GetBreweryMetadata $getBreweryMetadata)
+    public function __invoke(BreweryFilterRequest $request, GetBreweryMetadata $getBreweryMetadata): JsonResponse
     {
         $metadata = $getBreweryMetadata->handle($request->validated());
         $metadata['page'] = $request->integer('page', 1);
@@ -24,7 +25,6 @@ class GetBreweriesMeta extends Controller
         return response()->json(
             data: new BreweryMetaResource($metadata),
             status: Response::HTTP_OK,
-            headers: ['Cache-Control' => 'public, max-age=300, etag'],
         );
     }
 }

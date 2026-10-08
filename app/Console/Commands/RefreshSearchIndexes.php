@@ -24,7 +24,7 @@ class RefreshSearchIndexes extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $this->call('scout:flush', ['model' => Brewery::class]);
 
@@ -33,5 +33,7 @@ class RefreshSearchIndexes extends Command
         $this->newLine();
 
         $this->info('Search indexes refreshed successfully.');
+
+        return self::SUCCESS;
     }
 }

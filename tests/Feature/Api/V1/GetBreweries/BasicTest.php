@@ -50,11 +50,17 @@ test('returns cache control headers', function () {
     $response = $this->getJson('/v1/breweries');
     $response->assertOk();
 
-    // Check that the Cache-Control header contains the expected values
-    $cacheControl = $response->headers->get('Cache-Control');
-    expect($cacheControl)->toContain('public');
-    expect($cacheControl)->toContain('max-age=');
-    expect($cacheControl)->toContain('etag');
+    $response->assertHeader('Cache-Control', 'max-age=300, public')
+        ->assertHeader('ETag');
+});
+
+test('returns not modified when the etag matches', function () {
+    createBreweries(1);
+    $etag = $this->getJson('/v1/breweries')->headers->get('ETag');
+
+    $response = $this->getJson('/v1/breweries', ['If-None-Match' => $etag]);
+
+    $response->assertNotModified();
 });
 
 test('returns HTTP error 422 with invalid params', function () {
