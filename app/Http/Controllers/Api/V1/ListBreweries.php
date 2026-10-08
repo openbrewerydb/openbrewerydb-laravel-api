@@ -21,7 +21,7 @@ class ListBreweries extends Controller
         $breweries = Brewery::query()
             ->applyFilters($filters)
             ->applySorts($filters)
-            ->paginate(perPage: $request->integer('per_page', 50));
+            ->simplePaginate(perPage: $request->integer('per_page', 50));
 
         return response()->json(
             data: BreweryResource::collection($breweries),
