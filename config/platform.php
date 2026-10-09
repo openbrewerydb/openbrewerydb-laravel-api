@@ -6,6 +6,8 @@ return [
 
     'api_rate_limit' => (int) env('API_RATE_LIMIT', 120), // requests per minute
 
+    'autocomplete_brownout' => (bool) env('AUTOCOMPLETE_BROWNOUT', false), // returns 410 for the first 10 minutes of every hour
+
     'mcp_enabled' => (bool) env('MCP_ENABLED', true),
 
     'mcp_rate_limit' => (int) env('MCP_RATE_LIMIT', 60), // requests per minute
