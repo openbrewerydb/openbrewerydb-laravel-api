@@ -11,6 +11,12 @@ LABEL org.opencontainers.image.title="Open Brewery DB API" \
 ENV PHP_OPCACHE_ENABLE="1" \
     SHOW_WELCOME_MESSAGE="false"
 
+# Limit request sizes and execution time, the API only serves reads and small MCP payloads
+ENV NGINX_CLIENT_MAX_BODY_SIZE="1M" \
+    PHP_MAX_EXECUTION_TIME="30" \
+    PHP_POST_MAX_SIZE="1M" \
+    PHP_UPLOAD_MAX_FILE_SIZE="1M"
+
 # Switch to the root user so we can do root things
 USER root
 
