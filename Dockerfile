@@ -20,22 +20,27 @@ COPY ./src/etc /etc
 RUN install-php-extensions excimer \
     && rm -rf /var/cache/apk/*
 
-# Drop back to the www-data user
-USER www-data
-
 # Set the working directory
 WORKDIR /var/www/html
 
 # Install the composer dependencies in their own layer so they are cached between code changes
-COPY --chown=www-data:www-data composer.json composer.lock /var/www/html/
+COPY composer.json composer.lock /var/www/html/
 
 RUN composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader --no-cache
 
-# Copy the application files
-COPY --chown=www-data:www-data . /var/www/html
+# Copy the application files, owned by root so the runtime user cannot modify the code
+COPY . /var/www/html
 
-# Generate the optimized autoloader and run the composer scripts
-RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
+# Generate the optimized autoloader, run the composer scripts, link the public storage
+# directory, and hand only the directories written to at runtime over to the www-data user
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative \
+    && php artisan storage:link \
+    && mkdir -p public/docs .scribe \
+    && chown root:root /var/www/html \
+    && chown -R www-data:www-data storage bootstrap/cache database public/docs .scribe
+
+# Drop back to the www-data user
+USER www-data
 
 ########################
 # Production Image
