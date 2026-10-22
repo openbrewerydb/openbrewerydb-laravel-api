@@ -11,6 +11,10 @@ LABEL org.opencontainers.image.title="Open Brewery DB API" \
 ENV PHP_OPCACHE_ENABLE="1" \
     SHOW_WELCOME_MESSAGE="false"
 
+# Code is immutable inside the image, so skip OPcache timestamp checks
+ENV PHP_OPCACHE_INTERNED_STRINGS_BUFFER="16" \
+    PHP_OPCACHE_VALIDATE_TIMESTAMPS="0"
+
 # Limit request sizes and execution time, the API only serves reads and small MCP payloads
 ENV NGINX_CLIENT_MAX_BODY_SIZE="1M" \
     PHP_MAX_EXECUTION_TIME="30" \
