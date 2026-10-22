@@ -12,3 +12,16 @@ updates:
       - "chrisjm"
     commit-message:
       prefix: "gh actions"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+    labels:
+      - "🧹 chore"
+    reviewers:
+      - "alexjustesen"
+      - "chrisjm"
+    commit-message:
+      prefix: "docker"
