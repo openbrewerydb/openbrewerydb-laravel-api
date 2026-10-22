@@ -15,6 +15,10 @@ ENV PHP_OPCACHE_ENABLE="1" \
 ENV PHP_OPCACHE_INTERNED_STRINGS_BUFFER="16" \
     PHP_OPCACHE_VALIDATE_TIMESTAMPS="0"
 
+# Keep warm PHP-FPM workers ready for traffic and recycle them periodically
+ENV PHP_FPM_PM_CONTROL="dynamic" \
+    PHP_FPM_PM_MAX_REQUESTS="500"
+
 # Limit request sizes and execution time, the API only serves reads and small MCP payloads
 ENV NGINX_CLIENT_MAX_BODY_SIZE="1M" \
     PHP_MAX_EXECUTION_TIME="30" \
