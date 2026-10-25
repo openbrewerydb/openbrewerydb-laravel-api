@@ -4,6 +4,10 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
+/**
+ * @method \Illuminate\Testing\TestResponse assertJsonApiResponse(\Illuminate\Testing\TestResponse $response)
+ * @method \Illuminate\Testing\TestResponse assertJsonApiStructure(\Illuminate\Testing\TestResponse $response)
+ */
 abstract class TestCase extends BaseTestCase
 {
     /**

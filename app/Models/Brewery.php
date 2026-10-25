@@ -10,6 +10,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
+/**
+ * @property string $id
+ * @property string $name
+ * @property \App\Enums\BreweryType|null $brewery_type
+ * @property string|null $address_1
+ * @property string|null $address_2
+ * @property string|null $address_3
+ * @property string $city
+ * @property string $state_province
+ * @property string|null $postal_code
+ * @property string $country
+ * @property string|null $longitude
+ * @property string|null $latitude
+ * @property string|null $phone
+ * @property string|null $website_url
+ */
 class Brewery extends Model
 {
     /** @use HasFactory<\Database\Factories\BreweryFactory> */
@@ -21,6 +37,27 @@ class Brewery extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'brewery_type',
+        'address_1',
+        'address_2',
+        'address_3',
+        'city',
+        'state_province',
+        'postal_code',
+        'country',
+        'longitude',
+        'latitude',
+        'phone',
+        'website_url',
+    ];
 
     /**
      * Get the attributes that should be cast.
