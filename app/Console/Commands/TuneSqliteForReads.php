@@ -24,7 +24,7 @@ class TuneSqliteForReads extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         if (config('database.default') !== 'sqlite') {
             $this->error('This command is only available for SQLite databases.');

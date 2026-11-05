@@ -15,6 +15,10 @@ class BreweryType implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if (! is_string($value)) {
+            return;
+        }
+
         $types = array_map('trim', explode(',', $value));
 
         foreach ($types as $type) {

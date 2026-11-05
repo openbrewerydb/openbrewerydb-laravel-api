@@ -41,20 +41,22 @@ class Brewery extends Model
     {
         $earthRadius = $unit === 'km' ? 6371 : 3959;
 
-        $haversine = "({$earthRadius} * acos(cos(radians({$latitude}))
+        $haversine = "({$earthRadius} * acos(cos(radians(?))
                         * cos(radians(latitude))
                         * cos(radians(longitude)
-                        - radians({$longitude}))
-                        + sin(radians({$latitude}))
+                        - radians(?))
+                        + sin(radians(?))
                         * sin(radians(latitude))))";
+        $coordinates = [$latitude, $longitude, $latitude];
 
         $query = $query->select('*')
-            ->selectRaw("{$haversine} AS distance")
+            ->selectRaw("{$haversine} AS distance", $coordinates)
             ->whereNotNull('latitude')
             ->whereNotNull('longitude');
 
         if ($radius !== null) {
-            $query->whereRaw("{$haversine} <= {$radius}");
+            // PDO binds floats as strings, so cast to keep SQLite comparing numerically.
+            $query->whereRaw("{$haversine} <= CAST(? AS REAL)", [...$coordinates, $radius]);
         }
 
         $query = $query->orderBy('distance');

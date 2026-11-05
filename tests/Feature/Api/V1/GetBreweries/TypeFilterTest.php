@@ -69,3 +69,10 @@ test('returns breweries filtered by multiple types', function () {
     expect($types->contains('micro'))->toBeTrue();
     expect($types->contains('large'))->toBeTrue();
 });
+
+test('returns validation error when brewery type is provided as an array', function () {
+    $response = $this->getJson('/v1/breweries?by_type[]=micro');
+
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrors(['by_type' => 'The by type field must be a string.']);
+});

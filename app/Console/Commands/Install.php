@@ -23,7 +23,7 @@ class Install extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         if (! $this->option('force')) {
             $this->newLine(2);
@@ -48,6 +48,8 @@ class Install extends Command
         $this->migrateDatabase();
 
         $this->info('Application installed successfully.');
+
+        return self::SUCCESS;
     }
 
     /**

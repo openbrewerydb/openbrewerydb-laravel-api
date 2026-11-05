@@ -218,3 +218,10 @@ test('distance filter works with other filters', function () {
     expect($breweries)->toHaveCount(1)
         ->and($breweries->first()['name'])->toBe('Portland Micro');
 });
+
+test('distance filter returns validation error when coordinates are provided as an array', function () {
+    $response = $this->getJson('/v1/breweries?by_dist[]=45.5155,-122.6789');
+
+    $response->assertUnprocessable()
+        ->assertJsonValidationErrors(['by_dist' => 'The by dist field must be a string.']);
+});

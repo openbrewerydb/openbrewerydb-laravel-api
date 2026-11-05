@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +15,7 @@ class AutocompleteBreweries extends Controller
      *
      * @deprecated Use the Search Breweries endpoint instead.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
         $query = $request->query('query');
 

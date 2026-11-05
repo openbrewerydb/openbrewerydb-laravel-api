@@ -5,27 +5,23 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BreweryResource;
 use App\Models\Brewery;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 
 class RandomBrewery extends Controller
 {
     /**
      * Get a random brewery.
      */
-    public function __invoke(Request $request, int $size = 1)
+    public function __invoke(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'size' => 'integer|min:1|max:50',
+        $request->validate([
+            'size' => ['sometimes', 'required', 'integer', 'min:1', 'max:50'],
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $breweries = Brewery::inRandomOrder()
-            ->limit($request->input('size', 1))
+            ->limit($request->integer('size', 1))
             ->get();
 
         return response()->json(
